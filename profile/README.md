@@ -1,16 +1,56 @@
+<div align="center">
+
 # ToggleMaster
 
-Plataforma de **feature flags** construída como microsserviços, desenvolvida para o **Tech Challenge da FIAP (POSTECH)**.
+**Uma plataforma de feature flags em microsserviços — e a esteira DevOps/SRE completa que a sustenta, da infraestrutura como código à observabilidade.**
 
-Feature flags ligam e desligam funcionalidades em tempo de execução, direcionam recursos para públicos específicos e coletam métricas de cada avaliação — tudo sem um novo deploy. A aplicação é real, mas o objetivo do projeto é o que está em volta dela: infraestrutura como código, esteiras de segurança e entrega contínua por GitOps.
+![AWS](https://img.shields.io/badge/AWS-EKS·RDS·DynamoDB-FF9900?logo=amazonwebservices&logoColor=white)
+![Terraform](https://img.shields.io/badge/Terraform-modular-7B42BC?logo=terraform&logoColor=white)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-1.34-326CE5?logo=kubernetes&logoColor=white)
+![Argo CD](https://img.shields.io/badge/Argo%20CD-GitOps-EF7B4D?logo=argo&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-DevSecOps-2088FF?logo=githubactions&logoColor=white)
+![Go](https://img.shields.io/badge/Go-1.25-00ADD8?logo=go&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 
-O lema da fase atual resume a regra que organiza tudo aqui: **se não está no código, não existe.** Nada é aplicado à mão, nem na AWS nem no cluster.
+</div>
+
+---
+
+## Quem somos
+
+| Participante | LinkedIn |
+|---|---|
+| **Vitor Fontes do Prado** | [in/vitor-prado-889046172](https://www.linkedin.com/in/vitor-prado-889046172) |
+| **Clayton Lima** | [in/clayton-lima-b1a8b7178](https://www.linkedin.com/in/clayton-lima-b1a8b7178/) |
+| **Felipe Lima da Silva** | [in/felipelima285](https://www.linkedin.com/in/felipelima285/) |
+| **Lucas Rodrigues** | [in/lucas-rodrigues-6278a855](https://www.linkedin.com/in/lucas-rodrigues-6278a855/) |
+| **Thiago Saraiva** | [in/saraivathiago](https://www.linkedin.com/in/saraivathiago/) |
+
+---
+
+## Sobre o projeto
+
+O ToggleMaster nasceu como trabalho do **Tech Challenge da pós-graduação em DevOps/SRE (POSTECH FIAP)**, mas não parou na entrega acadêmica. Ele segue ativo e continuará sendo atualizado como **portfólio do grupo** — um ambiente real onde novas práticas, ferramentas e decisões de arquitetura são implementadas, documentadas e discutidas.
+
+A aplicação é uma **plataforma de feature flags**: liga e desliga funcionalidades em tempo de execução, direciona recursos para públicos específicos e coleta métricas de cada avaliação, sem exigir um novo deploy. São cinco microsserviços em Go e Python, cada um dono do próprio banco, comunicando-se de forma síncrona por HTTP e assíncrona por fila.
+
+Mas a aplicação é o meio, não o fim. **O que este projeto demonstra é o ciclo de vida completo de um sistema em produção**, construído inteiramente por código:
+
+| Área | O que está implementado |
+|---|---|
+| **Infraestrutura como código** | Terraform em módulos versionados e reutilizáveis, estado remoto em S3, três stages com ciclos de vida independentes |
+| **CI com DevSecOps** | Build, testes, lint, SAST, SCA e varredura de segredos em toda alteração, com vulnerabilidade crítica reprovando a esteira |
+| **Entrega contínua por GitOps** | Argo CD sincronizando o cluster a partir de um repositório de manifests, sem `kubectl` manual |
+| **Kubernetes em produção** | Amazon EKS com escalabilidade automática de pods (HPA e KEDA) e de nós (Karpenter, com preferência por Spot) |
+| **Segurança** | Autenticação por OIDC sem chaves estáticas, segredos no Secrets Manager entregues via External Secrets, imagens com tag imutável e rastreáveis até o commit |
+| **Governança de custo** | Teto de vCPU no provisionamento de nós, esteira de destroy sob demanda e estimativa de custo documentada |
+| **Observabilidade** | Stack de métricas preparada no cluster e ligada sob demanda — é a frente em evolução no momento |
+
+A regra que organiza tudo isso é a mesma do primeiro dia: **se não está no código, não existe.** Nada é aplicado à mão, nem na AWS nem no cluster.
 
 ---
 
 ## A aplicação
-
-Cinco microsserviços, cada um dono do próprio banco de dados.
 
 | Serviço | Stack | Estado | Responsabilidade |
 |---|---|---|---|
@@ -20,7 +60,7 @@ Cinco microsserviços, cada um dono do próprio banco de dados.
 | `evaluation-service` | Go | Redis | Avalia uma flag para um usuário, orquestrando os dois anteriores |
 | `analytics-service` | Python | SQS + DynamoDB | Consome os eventos de avaliação e persiste as métricas |
 
-O `evaluation-service` é o caminho de leitura: recebe a requisição, consulta flag e targeting, responde com cache em Redis e publica um evento na fila. O `analytics-service` consome essa fila de forma assíncrona. A comunicação entre os serviços é síncrona por HTTP; a de métricas, assíncrona por SQS.
+O `evaluation-service` é o caminho de leitura: recebe a requisição, consulta flag e targeting, responde com cache em Redis e publica um evento na fila. O `analytics-service` consome essa fila de forma assíncrona e grava as métricas no DynamoDB.
 
 ---
 
@@ -57,7 +97,7 @@ Os stages se comunicam por parâmetros no SSM Parameter Store, não por acoplame
 
 ## Esteiras
 
-Cada serviço tem um arquivo de poucas linhas que chama o workflow compartilhado correspondente à sua linguagem.
+Cada serviço tem um arquivo de poucas linhas que chama o workflow compartilhado da sua linguagem.
 
 | Estágio | Go | Python |
 |---|---|---|
@@ -97,4 +137,4 @@ Nenhuma etapa envolve alguém rodando `kubectl` na própria máquina. O commit n
 
 ## Documentação
 
-Cada repositório traz, em `docs/`, o registro dos problemas reais enfrentados e como foram resolvidos — de um CVE crítico em dependência indireta do Go até a ordem correta de destruição do cluster. É a parte do trabalho que não aparece no código final.
+Cada repositório traz, em `docs/`, o registro dos problemas reais enfrentados e como foram resolvidos — de um CVE crítico em dependência indireta do Go até a ordem correta de destruição do cluster. É a parte do trabalho que não aparece no código final, e é onde o raciocínio por trás de cada decisão fica registrado.
