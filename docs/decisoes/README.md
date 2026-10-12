@@ -20,7 +20,7 @@ Cabeçalho com `Status`, `Domínio`, `Data` e `Fase`. Depois: contexto, decisão
 
 ## Por domínio
 
-### GitOps
+### Kubernetes e GitOps
 
 | # | Decisão | Status |
 |---|---|---|

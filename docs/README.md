@@ -17,8 +17,7 @@ Porta de entrada da documentação. Ela vive em dois lugares, e cada um tem um t
 |---|---|
 | [**IaC**](iac/) | Terraform em três stages, OIDC sem chave estática, módulos por tag |
 | [**CI/CD**](ci-cd/) | Esteiras por linguagem, gate de CRITICAL, a fronteira entre CI e CD |
-| [**GitOps**](gitops/) | Argo CD, app-of-apps, estrutura do repositório, chart base |
-| [**Kubernetes**](k8s/) | EKS, Karpenter, KEDA, External Secrets, Ingress |
+| [**Kubernetes**](kubernetes/) | EKS, Karpenter, KEDA e Ingress; Argo CD e a estrutura do GitOps |
 | [**Observabilidade**](observabilidade/) | OpenTelemetry, instrumentação, Collector e backends |
 
 Cada hub diz o que o domínio cobre, quais decisões se aplicam a ele, e aponta para a documentação detalhada nos repositórios.
@@ -75,7 +74,7 @@ A numeração dos documentos em `docs/desafios/` acompanha a fase do Tech Challe
 | Fase | Entrega | Onde olhar |
 |---|---|---|
 | 1 e 2 | Containerização e deploy em Kubernetes | `*/docs/desafios/01` e `02` |
-| 3 | IaC, CI/CD com DevSecOps e GitOps | `*/docs/desafios/03` e `04` · [`iac/`](iac/) · [`ci-cd/`](ci-cd/) · [`gitops/`](gitops/) |
+| 3 | IaC, CI/CD com DevSecOps e GitOps | `*/docs/desafios/03` e `04` · [`iac/`](iac/) · [`ci-cd/`](ci-cd/) · [`kubernetes/`](kubernetes/) |
 | 4 | Observabilidade | `*/docs/desafios/05` · [`observabilidade/`](observabilidade/) · [decisões 0001–0011](decisoes/) |
 
 ---

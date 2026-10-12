@@ -1,6 +1,6 @@
 # 0002 — Um chart e uma Application por componente de plataforma
 
-**Status:** aceita · **Domínio:** GitOps · **Data:** 10/10/2026 · **Fase:** 4
+**Status:** aceita · **Domínio:** Kubernetes · GitOps · **Data:** 10/10/2026 · **Fase:** 4
 
 ## Contexto
 

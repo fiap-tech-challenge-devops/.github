@@ -1,6 +1,6 @@
 # 0003 — Stack de observabilidade no GitOps, não no Terraform
 
-**Status:** aceita · **Domínio:** GitOps · Observabilidade · **Data:** 08/10/2026 · **Fase:** 4
+**Status:** aceita · **Domínio:** Kubernetes · GitOps · Observabilidade · **Data:** 08/10/2026 · **Fase:** 4
 
 ## Contexto
 

@@ -1,6 +1,6 @@
 # 0001 — Chart de terceiros entra como dependência de um chart nosso
 
-**Status:** aceita · **Domínio:** GitOps · **Data:** 10/10/2026 · **Fase:** 4
+**Status:** aceita · **Domínio:** Kubernetes · GitOps · **Data:** 10/10/2026 · **Fase:** 4
 
 ## Contexto
 
