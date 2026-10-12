@@ -31,8 +31,16 @@ Os stages se comunicam por **parâmetros no SSM**, não por acoplamento de estad
 
 ## Decisões que afetam este domínio
 
+A estrutura descrita acima não é arbitrária: cada escolha tem um registro com o que foi descartado e por quê.
+
 | # | Decisão |
 |---|---|
+| [0012](../decisoes/0012-tres-stages-de-terraform.md) | Três stages com estados independentes, e por que um apply único é impossível |
+| [0013](../decisoes/0013-ecr-no-bootstrap.md) | Por que o ECR fica no `bootstrap` e não junto do cluster |
+| [0014](../decisoes/0014-referencias-fixadas-por-tag.md) | Módulos por tag, nunca `main` |
+| [0015](../decisoes/0015-oidc-sem-chave-estatica.md) | OIDC sem chave estática, e a armadilha da claim `sub` |
+| [0016](../decisoes/0016-apply-replaneja.md) | Por que o `apply` replaneja em vez de aplicar um `tfplan` salvo |
+| [0017](../decisoes/0017-trivy-e-checkov.md) | Trivy e Checkov como dois motores, e por que módulos baixados não são escaneados |
 | [0003](../decisoes/0003-observabilidade-no-gitops.md) | A stack de observabilidade **não** entra aqui — vai para o GitOps |
 
 ## Pendências conhecidas

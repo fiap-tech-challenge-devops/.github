@@ -36,9 +36,17 @@ Em pull request a imagem é construída e escaneada, mas **não publicada**: num
 
 ## Decisões que afetam este domínio
 
+O que cada estágio reprova, e o que não reprova, está registrado com as alternativas descartadas.
+
 | # | Decisão |
 |---|---|
+| [0018](../decisoes/0018-gate-em-critical.md) | O gate em CRITICAL, e por que lint e SAST só reportam |
+| [0019](../decisoes/0019-imagem-so-no-push-para-main.md) | Imagem construída no PR, publicada só no push |
+| [0020](../decisoes/0020-tag-da-imagem-e-o-sha.md) | Tag é o SHA, e o CD escreve no GitOps — em vez do Image Updater |
 | [0006](../decisoes/0006-fixar-versao-das-ferramentas.md) | Fixar a versão das ferramentas de lint e SAST |
+| [0014](../decisoes/0014-referencias-fixadas-por-tag.md) | Workflows compartilhados consumidos por tag |
+| [0015](../decisoes/0015-oidc-sem-chave-estatica.md) | OIDC sem chave estática |
+| [0016](../decisoes/0016-apply-replaneja.md) | Por que a esteira de IaC não passa o `tfplan` entre jobs |
 
 ## O que saber antes de mexer
 

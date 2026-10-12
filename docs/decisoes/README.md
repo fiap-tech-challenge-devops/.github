@@ -27,6 +27,18 @@ Cabeçalho com `Status`, `Domínio`, `Data` e `Fase`. Depois: contexto, decisão
 | [0001](0001-chart-de-terceiros-como-wrapper.md) | Chart de terceiros entra como dependência de um chart nosso | aceita |
 | [0002](0002-um-chart-por-componente.md) | Um chart e uma Application por componente de plataforma | aceita |
 | [0003](0003-observabilidade-no-gitops.md) | Stack de observabilidade no GitOps, não no Terraform | aceita |
+| [0020](0020-tag-da-imagem-e-o-sha.md) | A tag da imagem é o SHA, e o CD escreve no GitOps | aceita |
+
+### IaC
+
+| # | Decisão | Status |
+|---|---|---|
+| [0012](0012-tres-stages-de-terraform.md) | Três stages de Terraform com estados independentes | aceita |
+| [0013](0013-ecr-no-bootstrap.md) | Repositórios ECR no `bootstrap`, não no `infra` | aceita |
+| [0014](0014-referencias-fixadas-por-tag.md) | Referências fixadas por tag, nunca por `main` | aceita |
+| [0015](0015-oidc-sem-chave-estatica.md) | Autenticação na AWS por OIDC, sem chave estática | aceita |
+| [0016](0016-apply-replaneja.md) | O `apply` replaneja em vez de consumir um plano salvo | aceita |
+| [0017](0017-trivy-e-checkov.md) | Trivy e Checkov como dois motores independentes | aceita |
 
 ### Observabilidade
 
@@ -44,6 +56,14 @@ Cabeçalho com `Status`, `Domínio`, `Data` e `Fase`. Depois: contexto, decisão
 | # | Decisão | Status |
 |---|---|---|
 | [0006](0006-fixar-versao-das-ferramentas.md) | Fixar a versão das ferramentas de lint e SAST na esteira | aceita |
+| [0013](0013-ecr-no-bootstrap.md) | Repositórios ECR no `bootstrap`, não no `infra` | aceita |
+| [0014](0014-referencias-fixadas-por-tag.md) | Referências fixadas por tag, nunca por `main` | aceita |
+| [0015](0015-oidc-sem-chave-estatica.md) | Autenticação na AWS por OIDC, sem chave estática | aceita |
+| [0016](0016-apply-replaneja.md) | O `apply` replaneja em vez de consumir um plano salvo | aceita |
+| [0017](0017-trivy-e-checkov.md) | Trivy e Checkov como dois motores independentes | aceita |
+| [0018](0018-gate-em-critical.md) | Gate em CRITICAL; lint e SAST reportam sem bloquear | aceita |
+| [0019](0019-imagem-so-no-push-para-main.md) | Imagem construída no PR, publicada só no push para `main` | aceita |
+| [0020](0020-tag-da-imagem-e-o-sha.md) | A tag da imagem é o SHA, e o CD escreve no GitOps | aceita |
 
 ### Serviços
 
@@ -58,7 +78,7 @@ Cabeçalho com `Status`, `Domínio`, `Data` e `Fase`. Depois: contexto, decisão
 
 ### Fase 4 — Observabilidade
 
-Todas as onze. Em ordem cronológica, elas contam como a fase se desenrolou:
+As onze primeiras, registradas enquanto a fase acontecia. Em ordem cronológica, elas contam como ela se desenrolou:
 
 | # | Decisão | Data |
 |---|---|---|
@@ -74,9 +94,29 @@ Todas as onze. Em ordem cronológica, elas contam como a fase se desenrolou:
 | [0009](0009-caminho-dos-logs.md) | Caminho dos logs | 10/10 |
 | [0011](0011-go-redis-v8-para-v9.md) | `go-redis` v8 para v9 | 10/10 |
 
-### Fases 1 a 3
+### Fase 3 — IaC, DevSecOps e GitOps
 
-Não há registros. As decisões daquelas fases estão nas narrativas dos `docs/desafios/` de cada repositório — o registro começou na Fase 4. Se alguma delas for revisitada, vale escrever o ADR retroativo.
+Registros **retroativos**, escritos durante a Fase 4 a partir do código e das narrativas em `docs/desafios/`. Por isso os números são altos: o número é a ordem em que a decisão foi *registrada*, não em que foi *tomada*.
+
+Lidos em sequência, eles respondem "por que a esteira é assim":
+
+| # | Decisão | Tema |
+|---|---|---|
+| [0012](0012-tres-stages-de-terraform.md) | Três stages com estados independentes | Como a infraestrutura é dividida |
+| [0013](0013-ecr-no-bootstrap.md) | ECR no `bootstrap` | O que sobrevive ao `destroy` |
+| [0014](0014-referencias-fixadas-por-tag.md) | Referências fixadas por tag | Reprodutibilidade |
+| [0015](0015-oidc-sem-chave-estatica.md) | OIDC, sem chave estática | Como a esteira se autentica |
+| [0016](0016-apply-replaneja.md) | O `apply` replaneja | Como a infraestrutura é aplicada |
+| [0017](0017-trivy-e-checkov.md) | Trivy e Checkov, dois motores | Segurança da IaC |
+| [0018](0018-gate-em-critical.md) | Gate em CRITICAL | O que reprova um PR |
+| [0019](0019-imagem-so-no-push-para-main.md) | Imagem publicada só no push | Quando a imagem existe |
+| [0020](0020-tag-da-imagem-e-o-sha.md) | Tag é o SHA; o CD escreve no GitOps | Como o código chega ao cluster |
+
+### Fases 1 e 2
+
+Sem registros. A Fase 1 foi a construção dos microsserviços e a Fase 2 o Kubernetes inicial; as decisões técnicas de lá foram substituídas pelas da Fase 3 — a infraestrutura manual deu lugar ao Terraform, e os manifests avulsos aos charts do GitOps. Escrever ADR de algo já superado registraria história, não compromisso.
+
+O código daquele período vive no [`togglemaster-platform-legacy`](https://github.com/fiap-tech-challenge-devops/togglemaster-platform-legacy), hoje reaproveitado como ambiente local.
 
 ---
 
