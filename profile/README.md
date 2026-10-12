@@ -137,4 +137,8 @@ Nenhuma etapa envolve alguém rodando `kubectl` na própria máquina. O commit n
 
 ## Documentação
 
-Cada repositório traz, em `docs/`, o registro dos problemas reais enfrentados e como foram resolvidos — de um CVE crítico em dependência indireta do Go até a ordem correta de destruição do cluster. É a parte do trabalho que não aparece no código final, e é onde o raciocínio por trás de cada decisão fica registrado.
+**[Índice da documentação](https://github.com/fiap-tech-challenge-devops/.github/tree/main/docs)** — guias transversais e o registro de decisões, com o mapa de tudo que está documentado nos outros repositórios.
+
+Cada repositório traz, em `docs/`, o registro dos problemas reais enfrentados e como foram resolvidos — de um CVE crítico em dependência indireta do Go até a ordem correta de destruição do cluster. É a parte do trabalho que não aparece no código final.
+
+E o [registro de decisões](https://github.com/fiap-tech-challenge-devops/.github/tree/main/docs/decisoes) guarda o outro lado: o que foi escolhido, o que foi descartado e por quê.
