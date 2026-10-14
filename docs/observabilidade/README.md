@@ -36,6 +36,8 @@ Os cinco serviços emitem traces, métricas e logs para um Collector no cluster.
 | [0009](../decisoes/0009-caminho-dos-logs.md) | Caminho dos logs: OTLP local, stdout em produção |
 | [0010](../decisoes/0010-amostragem-em-100.md) | Amostragem em 100% |
 | [0011](../decisoes/0011-go-redis-v8-para-v9.md) | `go-redis` da v8 para a v9 |
+| [0021](../decisoes/0021-api-key-do-datadog-por-tf-vars.md) | Como a API key do Datadog chega ao Collector |
+| [0022](../decisoes/0022-datadog-connector-desde-o-inicio.md) | O `datadog/connector` junto do exporter, e o `debug` caindo para `basic` |
 
 ## Documentação por serviço
 
