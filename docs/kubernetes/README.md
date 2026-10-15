@@ -91,6 +91,7 @@ O que quebra numa arquitetura assim não é Terraform nem GitOps — é os dois 
 | [0002](../decisoes/0002-um-chart-por-componente.md) | Um chart e uma Application por componente de plataforma |
 | [0003](../decisoes/0003-observabilidade-no-gitops.md) | Stack de observabilidade no GitOps, não no Terraform |
 | [0020](../decisoes/0020-tag-da-imagem-e-o-sha.md) | Como a imagem nova chega ao cluster: o CD commita a tag, em vez do Image Updater |
+| [0025](../decisoes/0025-baseline-em-spot.md) | Baseline em dois nós spot, e por que o cluster tolera interrupção |
 
 ---
 
