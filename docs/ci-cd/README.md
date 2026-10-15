@@ -47,6 +47,8 @@ O que cada estágio reprova, e o que não reprova, está registrado com as alter
 | [0014](../decisoes/0014-referencias-fixadas-por-tag.md) | Workflows compartilhados consumidos por tag |
 | [0015](../decisoes/0015-oidc-sem-chave-estatica.md) | OIDC sem chave estática |
 | [0016](../decisoes/0016-apply-replaneja.md) | Por que a esteira de IaC não passa o `tfplan` entre jobs |
+| [0021](../decisoes/0021-api-key-do-datadog-por-tf-vars.md) | `tf-vars` no `plan`, e por que esconder o recurso da revisão foi descartado |
+| [0024](../decisoes/0024-encaixe-do-stage-datadog-na-esteira.md) | Por que `on.paths` no apply existente reconstruiria o ambiente por um widget |
 
 ## O que saber antes de mexer
 

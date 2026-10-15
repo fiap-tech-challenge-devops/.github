@@ -39,6 +39,7 @@ Cabeçalho com `Status`, `Domínio`, `Data` e `Fase`. Depois: contexto, decisão
 | [0015](0015-oidc-sem-chave-estatica.md) | Autenticação na AWS por OIDC, sem chave estática | aceita |
 | [0016](0016-apply-replaneja.md) | O `apply` replaneja em vez de consumir um plano salvo | aceita |
 | [0017](0017-trivy-e-checkov.md) | Trivy e Checkov como dois motores independentes | aceita |
+| [0021](0021-api-key-do-datadog-por-tf-vars.md) | A API key do Datadog por `tf-vars`, e o `plan` aceitando o input | aceita |
 
 ### Observabilidade
 
@@ -50,6 +51,10 @@ Cabeçalho com `Status`, `Domínio`, `Data` e `Fase`. Depois: contexto, decisão
 | [0008](0008-padrao-de-resource-attributes.md) | Padrão de resource attributes | aceita |
 | [0009](0009-caminho-dos-logs.md) | Log por OTLP no local, stdout mais `filelog` em produção | aceita |
 | [0010](0010-amostragem-em-100.md) | Amostragem de traces em 100% | aceita |
+| [0021](0021-api-key-do-datadog-por-tf-vars.md) | A API key do Datadog por `tf-vars` | aceita |
+| [0022](0022-datadog-connector-desde-o-inicio.md) | O `datadog/connector` junto do exporter | aceita |
+| [0023](0023-datadog-como-codigo.md) | O que é construído no Datadog vira Terraform, num stage próprio | aceita |
+| [0024](0024-encaixe-do-stage-datadog-na-esteira.md) | Plan do stage `datadog` na matriz, apply em esteira própria | aceita |
 
 ### CI/CD
 
@@ -64,6 +69,7 @@ Cabeçalho com `Status`, `Domínio`, `Data` e `Fase`. Depois: contexto, decisão
 | [0018](0018-gate-em-critical.md) | Gate em CRITICAL; lint e SAST reportam sem bloquear | aceita |
 | [0019](0019-imagem-so-no-push-para-main.md) | Imagem construída no PR, publicada só no push para `main` | aceita |
 | [0020](0020-tag-da-imagem-e-o-sha.md) | A tag da imagem é o SHA, e o CD escreve no GitOps | aceita |
+| [0021](0021-api-key-do-datadog-por-tf-vars.md) | A API key do Datadog por `tf-vars`, e o `plan` aceitando o input | aceita |
 
 ### Serviços
 
@@ -78,7 +84,7 @@ Cabeçalho com `Status`, `Domínio`, `Data` e `Fase`. Depois: contexto, decisão
 
 ### Fase 4 — Observabilidade
 
-As onze primeiras, registradas enquanto a fase acontecia. Em ordem cronológica, elas contam como ela se desenrolou:
+Registradas enquanto a fase acontece. Em ordem cronológica, elas contam como ela se desenrolou:
 
 | # | Decisão | Data |
 |---|---|---|
@@ -93,6 +99,12 @@ As onze primeiras, registradas enquanto a fase acontecia. Em ordem cronológica,
 | [0007](0007-permanecer-em-go-1-25.md) | Permanecer em Go 1.25 | 10/10 |
 | [0009](0009-caminho-dos-logs.md) | Caminho dos logs | 10/10 |
 | [0011](0011-go-redis-v8-para-v9.md) | `go-redis` v8 para v9 | 10/10 |
+| [0021](0021-api-key-do-datadog-por-tf-vars.md) | A API key do Datadog por `tf-vars` | 14/10 |
+| [0022](0022-datadog-connector-desde-o-inicio.md) | O `datadog/connector` junto do exporter | 14/10 |
+| [0023](0023-datadog-como-codigo.md) | O Datadog como código, num stage próprio | 15/10 |
+| [0024](0024-encaixe-do-stage-datadog-na-esteira.md) | Encaixe do stage `datadog` na esteira | 15/10 |
+
+As duas últimas abrem a **rodada 3** — Datadog, alerta, PagerDuty, Slack e self-healing.
 
 ### Fase 3 — IaC, DevSecOps e GitOps
 

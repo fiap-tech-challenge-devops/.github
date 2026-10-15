@@ -41,6 +41,9 @@ A estrutura descrita acima não é arbitrária: cada escolha tem um registro com
 | [0015](../decisoes/0015-oidc-sem-chave-estatica.md) | OIDC sem chave estática, e a armadilha da claim `sub` |
 | [0016](../decisoes/0016-apply-replaneja.md) | Por que o `apply` replaneja em vez de aplicar um `tfplan` salvo |
 | [0017](../decisoes/0017-trivy-e-checkov.md) | Trivy e Checkov como dois motores, e por que módulos baixados não são escaneados |
+| [0021](../decisoes/0021-api-key-do-datadog-por-tf-vars.md) | O único segredo cujo valor vem de fora, e por que fica no `infra` |
+| [0023](../decisoes/0023-datadog-como-codigo.md) | Um quarto stage, `datadog/`, e por que não cabe no `infra` nem no `bootstrap` |
+| [0024](../decisoes/0024-encaixe-do-stage-datadog-na-esteira.md) | Como esse stage entra no plan e no apply |
 | [0003](../decisoes/0003-observabilidade-no-gitops.md) | A stack de observabilidade **não** entra aqui — vai para o GitOps |
 
 ## Pendências conhecidas
