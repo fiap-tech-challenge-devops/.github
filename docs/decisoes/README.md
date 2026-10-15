@@ -55,6 +55,7 @@ Cabeçalho com `Status`, `Domínio`, `Data` e `Fase`. Depois: contexto, decisão
 | [0022](0022-datadog-connector-desde-o-inicio.md) | O `datadog/connector` junto do exporter | aceita |
 | [0023](0023-datadog-como-codigo.md) | O que é construído no Datadog vira Terraform, num stage próprio | aceita |
 | [0024](0024-encaixe-do-stage-datadog-na-esteira.md) | Plan do stage `datadog` na matriz, apply em esteira própria | aceita |
+| [0025](0025-baseline-em-spot.md) | Baseline em dois nós spot, com cinco tipos de instância | aceita |
 
 ### CI/CD
 
@@ -103,6 +104,7 @@ Registradas enquanto a fase acontece. Em ordem cronológica, elas contam como el
 | [0022](0022-datadog-connector-desde-o-inicio.md) | O `datadog/connector` junto do exporter | 14/10 |
 | [0023](0023-datadog-como-codigo.md) | O Datadog como código, num stage próprio | 15/10 |
 | [0024](0024-encaixe-do-stage-datadog-na-esteira.md) | Encaixe do stage `datadog` na esteira | 15/10 |
+| [0025](0025-baseline-em-spot.md) | Baseline em dois nós spot | 15/10 |
 
 As duas últimas abrem a **rodada 3** — Datadog, alerta, PagerDuty, Slack e self-healing.
 

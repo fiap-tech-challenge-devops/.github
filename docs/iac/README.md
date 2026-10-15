@@ -44,10 +44,13 @@ A estrutura descrita acima não é arbitrária: cada escolha tem um registro com
 | [0021](../decisoes/0021-api-key-do-datadog-por-tf-vars.md) | O único segredo cujo valor vem de fora, e por que fica no `infra` |
 | [0023](../decisoes/0023-datadog-como-codigo.md) | Um quarto stage, `datadog/`, e por que não cabe no `infra` nem no `bootstrap` |
 | [0024](../decisoes/0024-encaixe-do-stage-datadog-na-esteira.md) | Como esse stage entra no plan e no apply |
+| [0025](../decisoes/0025-baseline-em-spot.md) | Baseline em dois spot, e por que o ganho é capacidade e não custo |
 | [0003](../decisoes/0003-observabilidade-no-gitops.md) | A stack de observabilidade **não** entra aqui — vai para o GitOps |
 
 ## Pendências conhecidas
 
 **O EBS CSI driver está desligado** (`infra/main.tf`). Sem ele, nenhum PersistentVolumeClaim é atendido — e Prometheus e Loki pedem PVC por padrão. Decisão necessária antes da rodada 2 de observabilidade.
 
-**Capacidade do nó.** O node group fixo é um `t3.large` com `min` e `max` iguais a 1; quem escala é o Karpenter.
+**Capacidade do baseline.** Dois nós **spot**, `min` e `max` iguais a 2, entre cinco tipos de instância de 2 vCPU e 8 GB — ver [0025](../decisoes/0025-baseline-em-spot.md). Quem escala além disso é o Karpenter, que já provisiona `["spot", "on-demand"]`.
+
+**Os pods não se espalham por conta própria.** Medido depois da mudança para dois nós: os 8 pods da aplicação ficaram todos no mesmo nó. O chart base tem `affinity: {}`, sem `topologySpreadConstraints`. A capacidade existe, a resiliência não — perder aquele nó derruba todos os serviços, que recuperam no outro. Postergado por decisão, não por descuido.
