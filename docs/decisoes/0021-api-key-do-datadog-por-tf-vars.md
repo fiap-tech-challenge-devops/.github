@@ -16,7 +16,11 @@ Duas perguntas em sequência: **em qual stage o segredo mora**, e **como o valor
 
 **E o `terraform-plan.yml` ganha o mesmo input**, que não tinha. Sem isso, uma variável obrigatória sem default reprova o `terraform plan` de todo pull request.
 
-A variável fica **sem default**, de propósito.
+A variável da key fica **sem default**, de propósito.
+
+**E o segredo carrega a conta inteira, não só a key** — `DD_API_KEY` e `DD_SITE`, por isso ele se chama `togglemaster/datadog/account`. A conta é um trial: quando expirar, outra será criada, e conta nova não cai necessariamente no mesmo site. Os dois valores **têm que trocar juntos**; separados, a troca tem uma janela em que a key é da conta nova e o site ainda aponta para a antiga, e o sintoma é `403` em toda exportação, que não diz o que está errado.
+
+`datadog_site` **tem** default (`datadoghq.com`), porque não é segredo e só precisa ser informado quando a conta nova mudar de região.
 
 ## Alternativas descartadas
 
@@ -37,6 +41,9 @@ Descartada por dois motivos: o Checkov deixaria de ver o recurso, então a cript
 - Plan e apply ficam simétricos. Antes, só o apply recebia variáveis sensíveis, e isso era uma assimetria esperando por este caso
 - **A key fica em texto no `tfstate`.** É o mesmo patamar dos segredos existentes, que são `random_password` e já estão lá, e o bucket tem KMS key própria desde a correção do `AWS-0132` na Fase 3 ([0017](0017-trivy-e-checkov.md)). Não é uma regressão, mas é um fato que merece estar escrito
 - O secret `TF_VARS_INFRA` precisa existir no repositório antes do primeiro PR que referencie a variável, ou o plan reprova
+- **Trocar de conta Datadog é alterar um secret e rodar o apply do `infra`.** Nenhum PR no repositório GitOps, nenhuma imagem reconstruída — o Collector lê site e key do ambiente, por `${env:}`
+- Como as duas propriedades vêm do mesmo segredo remoto, o External Secrets as sincroniza junto. Isso corta pela metade: **se uma delas faltar no segredo, o ESO falha o Secret inteiro** em vez de entregar metade — o que é o comportamento desejável aqui
+- Isto cobre a **conta**, não o que é construído nela. Monitor, integrações e dashboards vivem no painel e morrem com o trial — resolvido pela [0023](0023-datadog-como-codigo.md), que os coloca num stage de Terraform próprio
 
 ## Onde aprofundar
 

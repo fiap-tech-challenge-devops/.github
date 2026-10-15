@@ -53,6 +53,8 @@ Cabeçalho com `Status`, `Domínio`, `Data` e `Fase`. Depois: contexto, decisão
 | [0010](0010-amostragem-em-100.md) | Amostragem de traces em 100% | aceita |
 | [0021](0021-api-key-do-datadog-por-tf-vars.md) | A API key do Datadog por `tf-vars` | aceita |
 | [0022](0022-datadog-connector-desde-o-inicio.md) | O `datadog/connector` junto do exporter | aceita |
+| [0023](0023-datadog-como-codigo.md) | O que é construído no Datadog vira Terraform, num stage próprio | aceita |
+| [0024](0024-encaixe-do-stage-datadog-na-esteira.md) | Plan do stage `datadog` na matriz, apply em esteira própria | aceita |
 
 ### CI/CD
 
@@ -99,6 +101,8 @@ Registradas enquanto a fase acontece. Em ordem cronológica, elas contam como el
 | [0011](0011-go-redis-v8-para-v9.md) | `go-redis` v8 para v9 | 10/10 |
 | [0021](0021-api-key-do-datadog-por-tf-vars.md) | A API key do Datadog por `tf-vars` | 14/10 |
 | [0022](0022-datadog-connector-desde-o-inicio.md) | O `datadog/connector` junto do exporter | 14/10 |
+| [0023](0023-datadog-como-codigo.md) | O Datadog como código, num stage próprio | 15/10 |
+| [0024](0024-encaixe-do-stage-datadog-na-esteira.md) | Encaixe do stage `datadog` na esteira | 15/10 |
 
 As duas últimas abrem a **rodada 3** — Datadog, alerta, PagerDuty, Slack e self-healing.
 
