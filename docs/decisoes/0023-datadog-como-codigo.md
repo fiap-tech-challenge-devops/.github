@@ -1,6 +1,14 @@
 # 0023 — O que é construído no Datadog vira Terraform, num stage próprio
 
-**Status:** aceita · **Domínio:** IaC · Observabilidade · **Data:** 15/10/2026 · **Fase:** 4
+**Status:** aceita, **exceto no ponto do destroy, superado pela [0027](0027-ciclo-de-vida-do-stage-datadog.md)** · **Domínio:** IaC · Observabilidade · **Data:** 15/10/2026 · **Fase:** 4
+
+> **O que mudou:** esta decisão manteve o `datadog` fora da cadeia de destroy, para preservar o histórico de disparo dos monitores. O argumento não resiste a este projeto — num ambiente destruído toda noite esse histórico tem horas —, e monitor sobrevivente fica observando ambiente morto e disparando por no-data. A 0027 inverte esse ponto.
+>
+> **E isso derruba um dos argumentos desta decisão.** O stage separado foi justificado, entre outras coisas, por **ciclo de vida independente**. A 0027 acoplou os ciclos: o Datadog passa a ser destruído junto com o ambiente. Quem ler só a seção "Alternativas descartadas" abaixo vai encontrar esse argumento ainda escrito.
+>
+> **A separação continua certa**, por quatro razões que sobrevivem — e a mais forte nasceu depois: se o Datadog estivesse dentro do `infra`, uma key de trial expirada faria o `terraform destroy` do `infra` **falhar inteiro**, porque erro de configuração de provider derruba o plano todo. O ambiente AWS ficaria sem poder ser destruído, custando. Só com stages separados dá para tolerar essa falha, que é o que o `if` do `addons` faz.
+>
+> Somam-se: provider e credencial diferentes, que o `infra` passaria a exigir; o raio do plan, para mudança de monitor não planejar VPC, EKS e três bancos; e a ordem no destroy, que num stage único o grafo do Terraform não teria como saber.
 
 ## Contexto
 
@@ -17,6 +25,8 @@ Isso cobre o caminho do dado. Não cobre o que é construído em cima dele — m
 ## Decisão
 
 **O que for construído no Datadog é gerenciado pelo provider Terraform do Datadog** — `datadog_monitor`, `datadog_integration_pagerduty`, `datadog_integration_slack_channel`, `datadog_dashboard_json`.
+
+> O `datadog_dashboard_json` **não será usado**: a [0026](0026-sem-dashboard-no-datadog.md) decidiu que não há dashboard customizado no Datadog, porque o enunciado pede o dashboard no Grafana e as páginas nativas de APM já cobrem o que se pretendia construir.
 
 **E mora num stage novo, `datadog/`, com state próprio.**
 

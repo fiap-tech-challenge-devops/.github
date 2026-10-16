@@ -45,6 +45,7 @@ A estrutura descrita acima não é arbitrária: cada escolha tem um registro com
 | [0023](../decisoes/0023-datadog-como-codigo.md) | Um quarto stage, `datadog/`, e por que não cabe no `infra` nem no `bootstrap` |
 | [0024](../decisoes/0024-encaixe-do-stage-datadog-na-esteira.md) | Como esse stage entra no plan e no apply |
 | [0025](../decisoes/0025-baseline-em-spot.md) | Baseline em dois spot, e por que o ganho é capacidade e não custo |
+| [0027](../decisoes/0027-ciclo-de-vida-do-stage-datadog.md) | O `datadog` entra no apply e no destroy, e por que não pode bloquear a cadeia |
 | [0003](../decisoes/0003-observabilidade-no-gitops.md) | A stack de observabilidade **não** entra aqui — vai para o GitOps |
 
 ## Pendências conhecidas

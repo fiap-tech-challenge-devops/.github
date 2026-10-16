@@ -1,6 +1,8 @@
 # 0024 — Plan do stage `datadog` na matriz existente, apply em esteira própria
 
-**Status:** aceita · **Domínio:** IaC · CI/CD · **Data:** 15/10/2026 · **Fase:** 4
+**Status:** aceita, **estendida pela [0027](0027-ciclo-de-vida-do-stage-datadog.md)** · **Domínio:** IaC · CI/CD · **Data:** 15/10/2026 · **Fase:** 4
+
+> **O que mudou:** esta decisão dizia que `iac-apply.yml` e `iac-destroy.yml` ficariam intocados. Isso deixava "matar e subir tudo" sem subir o Datadog. A 0027 acrescenta o job `datadog` ao `iac-apply.yml` — sem `datadog/**` nos paths dele, então o isolamento decidido aqui é preservado — e o inclui na cadeia de destroy.
 
 ## Contexto
 
