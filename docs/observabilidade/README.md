@@ -84,6 +84,7 @@ Nenhum PR, em nenhum repositório. O site vive no mesmo segredo que a key justam
 | [0024](../decisoes/0024-encaixe-do-stage-datadog-na-esteira.md) | Como o stage `datadog` entra nas esteiras de plan e apply |
 | [0026](../decisoes/0026-sem-dashboard-no-datadog.md) | Sem dashboard no Datadog — o customizado é o do Grafana |
 | [0028](../decisoes/0028-slack-para-chatops.md) | Slack para o ChatOps, e o passo de OAuth que fica manual |
+| [0029](../decisoes/0029-dois-golden-signals.md) | Por que só dois dos quatro golden signals, e o que falta para os outros |
 | [0027](../decisoes/0027-ciclo-de-vida-do-stage-datadog.md) | Sobe com o ambiente, e é o primeiro a ser destruído |
 
 ## Documentação por serviço

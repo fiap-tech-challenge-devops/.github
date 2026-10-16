@@ -68,6 +68,7 @@ O texto original **não é editado** nos dois casos. Ele continua contando o rac
 | [0023](0023-datadog-como-codigo.md) | O que é construído no Datadog vira Terraform, num stage próprio | aceita, exceto no destroy |
 | [0026](0026-sem-dashboard-no-datadog.md) | Não haverá dashboard customizado no Datadog | aceita |
 | [0028](0028-slack-para-chatops.md) | Slack para o ChatOps, aceitando um passo manual de OAuth | aceita |
+| [0029](0029-dois-golden-signals.md) | Latência e taxa de erro; tráfego e saturação ficam como lacuna | aceita |
 | [0027](0027-ciclo-de-vida-do-stage-datadog.md) | O stage `datadog` sobe com o ambiente e é destruído primeiro | aceita |
 
 ### CI/CD
@@ -123,6 +124,7 @@ Registradas enquanto a fase acontece. Em ordem cronológica, elas contam como el
 | [0026](0026-sem-dashboard-no-datadog.md) | Sem dashboard customizado no Datadog | 16/10 |
 | [0027](0027-ciclo-de-vida-do-stage-datadog.md) | Ciclo de vida do stage `datadog` | 16/10 |
 | [0028](0028-slack-para-chatops.md) | Slack para o ChatOps | 16/10 |
+| [0029](0029-dois-golden-signals.md) | Dois golden signals, e as duas lacunas | 16/10 |
 
 As duas últimas abrem a **rodada 3** — Datadog, alerta, PagerDuty, Slack e self-healing.
 
