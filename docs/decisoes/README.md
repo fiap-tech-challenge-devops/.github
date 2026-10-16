@@ -16,6 +16,13 @@ Cabeçalho com `Status`, `Domínio`, `Data` e `Fase`. Depois: contexto, decisão
 
 **Status possíveis:** `aceita`, `superada por NNNN`, `revertida`.
 
+Decisão raramente envelhece inteira — costuma ser um ponto dela que cai. Para isso há duas formas parciais, e as duas exigem **um parágrafo no topo dizendo o que mudou**, para quem chega pelo link não ler o ponto morto como vigente:
+
+- `aceita, exceto no ponto X, superado pela NNNN`
+- `aceita, estendida pela NNNN`
+
+O texto original **não é editado** nos dois casos. Ele continua contando o raciocínio da época, que é o que torna a série uma linha do tempo em vez de um retrato do presente.
+
 ---
 
 ## Por domínio
@@ -28,6 +35,7 @@ Cabeçalho com `Status`, `Domínio`, `Data` e `Fase`. Depois: contexto, decisão
 | [0002](0002-um-chart-por-componente.md) | Um chart e uma Application por componente de plataforma | aceita |
 | [0003](0003-observabilidade-no-gitops.md) | Stack de observabilidade no GitOps, não no Terraform | aceita |
 | [0020](0020-tag-da-imagem-e-o-sha.md) | A tag da imagem é o SHA, e o CD escreve no GitOps | aceita |
+| [0025](0025-baseline-em-spot.md) | Baseline em dois nós spot, com cinco tipos de instância | aceita |
 
 ### IaC
 
@@ -40,6 +48,10 @@ Cabeçalho com `Status`, `Domínio`, `Data` e `Fase`. Depois: contexto, decisão
 | [0016](0016-apply-replaneja.md) | O `apply` replaneja em vez de consumir um plano salvo | aceita |
 | [0017](0017-trivy-e-checkov.md) | Trivy e Checkov como dois motores independentes | aceita |
 | [0021](0021-api-key-do-datadog-por-tf-vars.md) | A API key do Datadog por `tf-vars`, e o `plan` aceitando o input | aceita |
+| [0023](0023-datadog-como-codigo.md) | O que é construído no Datadog vira Terraform, num stage próprio | aceita, exceto no destroy |
+| [0024](0024-encaixe-do-stage-datadog-na-esteira.md) | Plan do stage `datadog` na matriz, apply em esteira própria | aceita, estendida |
+| [0025](0025-baseline-em-spot.md) | Baseline em dois nós spot, com cinco tipos de instância | aceita |
+| [0027](0027-ciclo-de-vida-do-stage-datadog.md) | O stage `datadog` sobe com o ambiente e é destruído primeiro | aceita |
 
 ### Observabilidade
 
@@ -53,9 +65,10 @@ Cabeçalho com `Status`, `Domínio`, `Data` e `Fase`. Depois: contexto, decisão
 | [0010](0010-amostragem-em-100.md) | Amostragem de traces em 100% | aceita |
 | [0021](0021-api-key-do-datadog-por-tf-vars.md) | A API key do Datadog por `tf-vars` | aceita |
 | [0022](0022-datadog-connector-desde-o-inicio.md) | O `datadog/connector` junto do exporter | aceita |
-| [0023](0023-datadog-como-codigo.md) | O que é construído no Datadog vira Terraform, num stage próprio | aceita |
-| [0024](0024-encaixe-do-stage-datadog-na-esteira.md) | Plan do stage `datadog` na matriz, apply em esteira própria | aceita |
-| [0025](0025-baseline-em-spot.md) | Baseline em dois nós spot, com cinco tipos de instância | aceita |
+| [0023](0023-datadog-como-codigo.md) | O que é construído no Datadog vira Terraform, num stage próprio | aceita, exceto no destroy |
+| [0026](0026-sem-dashboard-no-datadog.md) | Não haverá dashboard customizado no Datadog | aceita |
+| [0028](0028-slack-para-chatops.md) | Slack para o ChatOps, aceitando um passo manual de OAuth | aceita |
+| [0027](0027-ciclo-de-vida-do-stage-datadog.md) | O stage `datadog` sobe com o ambiente e é destruído primeiro | aceita |
 
 ### CI/CD
 
@@ -71,6 +84,8 @@ Cabeçalho com `Status`, `Domínio`, `Data` e `Fase`. Depois: contexto, decisão
 | [0019](0019-imagem-so-no-push-para-main.md) | Imagem construída no PR, publicada só no push para `main` | aceita |
 | [0020](0020-tag-da-imagem-e-o-sha.md) | A tag da imagem é o SHA, e o CD escreve no GitOps | aceita |
 | [0021](0021-api-key-do-datadog-por-tf-vars.md) | A API key do Datadog por `tf-vars`, e o `plan` aceitando o input | aceita |
+| [0024](0024-encaixe-do-stage-datadog-na-esteira.md) | Plan do stage `datadog` na matriz, apply em esteira própria | aceita, estendida |
+| [0027](0027-ciclo-de-vida-do-stage-datadog.md) | O stage `datadog` no apply e no destroy | aceita |
 
 ### Serviços
 
@@ -105,6 +120,9 @@ Registradas enquanto a fase acontece. Em ordem cronológica, elas contam como el
 | [0023](0023-datadog-como-codigo.md) | O Datadog como código, num stage próprio | 15/10 |
 | [0024](0024-encaixe-do-stage-datadog-na-esteira.md) | Encaixe do stage `datadog` na esteira | 15/10 |
 | [0025](0025-baseline-em-spot.md) | Baseline em dois nós spot | 15/10 |
+| [0026](0026-sem-dashboard-no-datadog.md) | Sem dashboard customizado no Datadog | 16/10 |
+| [0027](0027-ciclo-de-vida-do-stage-datadog.md) | Ciclo de vida do stage `datadog` | 16/10 |
+| [0028](0028-slack-para-chatops.md) | Slack para o ChatOps | 16/10 |
 
 As duas últimas abrem a **rodada 3** — Datadog, alerta, PagerDuty, Slack e self-healing.
 
