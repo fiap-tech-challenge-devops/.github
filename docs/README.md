@@ -36,6 +36,7 @@ O número é a ordem em que a decisão foi **registrada**, não em que foi tomad
 |---|---|
 | [Como o dado flui e como consumi-lo](observabilidade/guia.md) | Observabilidade |
 | [Instrumentação: Python e Go](observabilidade/instrumentacao.md) | Observabilidade |
+| [Roteiro de incidente](observabilidade/roteiro-de-incidente.md) | Observabilidade |
 
 ---
 

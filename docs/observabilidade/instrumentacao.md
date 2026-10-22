@@ -201,6 +201,80 @@ Links:
 
 ---
 
+## O ponto cego que vale para as duas linguagens
+
+**O span diz onde quebrou. Ele não diz por quê.**
+
+Descoberto em 22/10, durante o ensaio do [roteiro de incidente](roteiro-de-incidente.md). O trace mostrava a cascata inteira — `evaluation` → `flag` → `auth` → `sql.conn.query` —, o span raiz vinha marcado como `502`, e o Datadog estampava:
+
+> *Missing error message and stack trace*
+
+Enquanto o log do mesmo serviço, no mesmo instante, dizia tudo:
+
+```
+"Erro ao avaliar flag"  erro: "flag-service retornou status 401"
+```
+
+### Por que acontece
+
+A instrumentação automática marca o status do span a partir do **protocolo**: viu `502`, marcou erro. É tudo que ela pode saber.
+
+A frase que explica o incidente nasce no código, camadas acima:
+
+```go
+// evaluator.go:130
+return nil, fmt.Errorf("flag-service retornou status %d", resp.StatusCode)
+```
+
+E morre no `slog`. Nada a entrega ao span.
+
+**Instrumentação automática captura o que o protocolo expõe; o porquê só o domínio sabe.**
+
+### O que preencheria
+
+São duas chamadas, com papéis diferentes:
+
+```go
+span.RecordError(err)                      // evento de exceção: tipo, mensagem, stack
+span.SetStatus(codes.Error, err.Error())   // descrição no status
+```
+
+O Datadog mapeia a primeira para `error.message`, `error.type` e `error.stack` — o trio que ele reclama de não ter.
+
+Em Python, o equivalente é `trace.get_current_span().record_exception(e)` no bloco de exceção.
+
+### O tamanho da lacuna
+
+**14 caminhos que devolvem 5xx nos cinco serviços, e nenhum anexa o erro ao span.**
+
+| Serviço | Caminhos 5xx | Anexa ao span |
+|---|---|---|
+| `flag-service` | 6 | não |
+| `targeting-service` | 5 | não |
+| `auth-service` | 2 | não |
+| `evaluation-service` | 1 | não |
+| `analytics-service` | — | — |
+
+Os dois `RecordError` que existem no `evaluation-service` estão no `sqs.go`, fora do caminho HTTP.
+
+### Onde **não** vale anexar
+
+Span de cliente que recebeu **`4xx`** não está pobre. Um `401` ali **é** a informação completa: a chamada foi recusada, e o serviço chamado funcionou corretamente ao recusar.
+
+Anexar erro de domínio a esses spans marcaria como falha um comportamento correto — o mesmo motivo pelo qual `4xx` não conta como erro de APM.
+
+A lacuna é no **span raiz do serviço que devolve 5xx**, que é onde quem investiga entra.
+
+### Por que não foi corrigido na Fase 4
+
+Escopo. O enunciado pede instrumentação e trace distribuído, e os dois funcionam — mensagem de erro no span é **qualidade, não requisito**.
+
+A correção é pequena em cada ponto, mas espalhada por cinco repositórios e duas linguagens, cada um com PR e esteira. O tempo da rodada vale mais em PagerDuty, Slack e self-healing, que são requisitos.
+
+Fica mapeado: quem for corrigir sabe onde mexer e o que **não** mexer.
+
+---
+
 ## Instrumentando um serviço novo: por onde começar
 
 **Se for Python:**
@@ -218,7 +292,7 @@ Links:
 4. Ligue `otelhttp` no mux e no client, mais o instrumentador do banco ou do cache
 5. Troque `ListenAndServe` por `http.Server` com `SIGTERM`
 
-**Nas duas:** rode `trivy fs` antes de abrir o PR. As dependências novas passam pelo gate de CRITICAL.
+**Nas duas:** rode `trivy fs` antes de abrir o PR. As dependências novas passam pelo gate de CRITICAL. E, onde o serviço devolver **5xx**, anexe o erro ao span — a instrumentação automática não faz isso, e o trace fica sem o porquê.
 
 ---
 
