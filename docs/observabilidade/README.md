@@ -8,6 +8,7 @@
 |---|---|
 | [**Guia**](guia.md) | Como o dado flui, o formato real de cada sinal, e a receita para plugar Prometheus, Loki, Grafana ou Datadog |
 | [**Instrumentação: Python e Go**](instrumentacao.md) | Por que cada linguagem exige um caminho diferente, e o que é preciso escrever em cada uma |
+| [**Roteiro de incidente**](roteiro-de-incidente.md) | Como encenar uma falha, ver o alerta disparar e recuperar — validação da cadeia e ensaio da demonstração |
 
 ## Estado atual
 
