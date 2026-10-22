@@ -50,6 +50,7 @@ O que cada estágio reprova, e o que não reprova, está registrado com as alter
 | [0021](../decisoes/0021-api-key-do-datadog-por-tf-vars.md) | `tf-vars` no `plan`, e por que esconder o recurso da revisão foi descartado |
 | [0024](../decisoes/0024-encaixe-do-stage-datadog-na-esteira.md) | Por que `on.paths` no apply existente reconstruiria o ambiente por um widget |
 | [0027](../decisoes/0027-ciclo-de-vida-do-stage-datadog.md) | Job no `iac-apply` sem mexer nos paths, e o destroy que não pode bloquear |
+| [0030](../decisoes/0030-self-healing-em-github-action.md) | Por que a automação fica fora do ciclo de vida do ambiente |
 
 ## O que saber antes de mexer
 
