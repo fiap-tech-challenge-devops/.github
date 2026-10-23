@@ -87,6 +87,8 @@ Nenhum PR, em nenhum repositório. O site vive no mesmo segredo que a key justam
 | [0028](../decisoes/0028-slack-para-chatops.md) | Slack para o ChatOps, e o passo de OAuth que fica manual |
 | [0029](../decisoes/0029-dois-golden-signals.md) | Por que só dois dos quatro golden signals, e o que falta para os outros |
 | [0030](../decisoes/0030-self-healing-em-github-action.md) | Onde a automação de self-healing executa |
+| [0031](../decisoes/0031-self-healing-mora-no-iac.md) | Em qual repositório ela mora |
+| [0032](../decisoes/0032-triagem-por-sondas-e-report-no-slack.md) | A triagem por sondas, e o Datadog notificando em paralelo à remediação |
 | [0027](../decisoes/0027-ciclo-de-vida-do-stage-datadog.md) | Sobe com o ambiente, e é o primeiro a ser destruído |
 
 ## Documentação por serviço
