@@ -51,6 +51,8 @@ O que cada estágio reprova, e o que não reprova, está registrado com as alter
 | [0024](../decisoes/0024-encaixe-do-stage-datadog-na-esteira.md) | Por que `on.paths` no apply existente reconstruiria o ambiente por um widget |
 | [0027](../decisoes/0027-ciclo-de-vida-do-stage-datadog.md) | Job no `iac-apply` sem mexer nos paths, e o destroy que não pode bloquear |
 | [0030](../decisoes/0030-self-healing-em-github-action.md) | Por que a automação fica fora do ciclo de vida do ambiente |
+| [0031](../decisoes/0031-self-healing-mora-no-iac.md) | Por que ela mora no `togglemaster-iac`, e o custo em IAM de um repositório novo |
+| [0032](../decisoes/0032-triagem-por-sondas-e-report-no-slack.md) | O filtro de `$ALERT_TRANSITION`, e o disjuntor por ciclo de alerta |
 
 ## O que saber antes de mexer
 

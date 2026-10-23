@@ -69,7 +69,9 @@ O texto original **não é editado** nos dois casos. Ele continua contando o rac
 | [0026](0026-sem-dashboard-no-datadog.md) | Não haverá dashboard customizado no Datadog | aceita |
 | [0028](0028-slack-para-chatops.md) | Slack para o ChatOps, aceitando um passo manual de OAuth | aceita |
 | [0029](0029-dois-golden-signals.md) | Latência e taxa de erro; tráfego e saturação ficam como lacuna | aceita |
-| [0030](0030-self-healing-em-github-action.md) | O self-healing roda numa GitHub Action, não numa Lambda | aceita |
+| [0030](0030-self-healing-em-github-action.md) | O self-healing roda numa GitHub Action, não numa Lambda | aceita, estendida pelas 0031 e 0032 |
+| [0031](0031-self-healing-mora-no-iac.md) | O self-healing mora no `togglemaster-iac`, sem repositório novo | aceita |
+| [0032](0032-triagem-por-sondas-e-report-no-slack.md) | O Datadog notifica; a Action triagem por sondas, remedia e reporta | aceita |
 | [0027](0027-ciclo-de-vida-do-stage-datadog.md) | O stage `datadog` sobe com o ambiente e é destruído primeiro | aceita |
 
 ### CI/CD
@@ -88,6 +90,8 @@ O texto original **não é editado** nos dois casos. Ele continua contando o rac
 | [0021](0021-api-key-do-datadog-por-tf-vars.md) | A API key do Datadog por `tf-vars`, e o `plan` aceitando o input | aceita |
 | [0024](0024-encaixe-do-stage-datadog-na-esteira.md) | Plan do stage `datadog` na matriz, apply em esteira própria | aceita, estendida |
 | [0027](0027-ciclo-de-vida-do-stage-datadog.md) | O stage `datadog` no apply e no destroy | aceita |
+| [0031](0031-self-healing-mora-no-iac.md) | O workflow de self-healing no `togglemaster-iac`, sem repositório novo | aceita |
+| [0032](0032-triagem-por-sondas-e-report-no-slack.md) | Filtro de transição, disjuntor por ciclo de alerta e report no Job Summary | aceita |
 
 ### Serviços
 
@@ -127,6 +131,8 @@ Registradas enquanto a fase acontece. Em ordem cronológica, elas contam como el
 | [0028](0028-slack-para-chatops.md) | Slack para o ChatOps | 16/10 |
 | [0029](0029-dois-golden-signals.md) | Dois golden signals, e as duas lacunas | 16/10 |
 | [0030](0030-self-healing-em-github-action.md) | Self-healing em GitHub Action | 22/10 |
+| [0031](0031-self-healing-mora-no-iac.md) | O self-healing mora no `togglemaster-iac` | 22/10 |
+| [0032](0032-triagem-por-sondas-e-report-no-slack.md) | Triagem por sondas, e o Datadog notificando em paralelo | 22/10 |
 
 As duas últimas abrem a **rodada 3** — Datadog, alerta, PagerDuty, Slack e self-healing.
 
