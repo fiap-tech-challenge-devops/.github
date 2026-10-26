@@ -22,8 +22,10 @@ Os cinco serviços emitem traces, métricas e logs para um Collector no cluster,
 | Propagação assíncrona (SQS) | pronta — span link entre produtor e consumidor |
 | Prometheus, Loki, Grafana | a fazer |
 | Datadog | pronto — APM, Service Map e trace distribuído validados em 15/10/2026 |
-| Alertas, PagerDuty/OpsGenie, ChatOps | a fazer |
-| Self-healing | a fazer |
+| Alertas | pronto — 8 monitores, dois golden signals por serviço |
+| ChatOps no Slack | parcial — a Action reporta por incoming webhook; o monitor ainda não, falta o OAuth |
+| PagerDuty/OpsGenie | a fazer — única peça do enunciado sem nada construído |
+| Self-healing | **pronto e validado em execução** — cadeia completa em 50s, 23/10/2026 |
 
 ## Trocar de conta Datadog
 
