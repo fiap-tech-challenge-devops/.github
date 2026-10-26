@@ -76,6 +76,37 @@ A tabela completa das sondas vai no **Job Summary** (`$GITHUB_STEP_SUMMARY`), n�
 
 **O disjuntor conta tentativas por `$ALERT_CYCLE_KEY`**, a chave do ciclo do alerta, consultando o histórico de runs do próprio GitHub. Duas tentativas por incidente; na terceira, só reporta. Contar por ciclo diz o que se quer dizer — *"duas tentativas para este incidente"* — em vez de uma janela de tempo arbitrária.
 
+## O que a execução mostrou
+
+Validado em 23/10, primeiro por disparo manual e depois pela cadeia inteira.
+
+**A cadeia completa, acionada pelo alerta, em 50 segundos** — run `39973940234`:
+
+```
+14:56:36  ciclo 8866834494507809736 — tentativas anteriores: 0
+14:56:36  prosseguir = true
+14:56:48  GET /evaluate  -> 502          a falha reproduz
+14:56:48  GET /flags     -> 401          causa: credencial
+14:56:55  Candidata do AWSPREVIOUS -> 404  candidato validado
+14:57:26  tentativa 1/12: sonda=404 fluxo=200
+```
+
+**O filtro de transição barrou um `Recovered` real.** Oito minutos depois, o mesmo ciclo disparou o webhook outra vez — run `39975113864`, com `Porteiro: success` e `Triagem: skipped`. Sem o filtro, a remediação teria revertido um segredo no instante em que o monitor voltou ao normal. A armadilha não era hipotética.
+
+**A troca de etiquetas se rearma**, medido duas vezes: depois de cada remediação o valor ruim desce para `AWSPREVIOUS` e o ciclo volta a estar pronto. Confirma o comportamento que a documentação da AWS descreve.
+
+### Três defeitos que só a execução revelou
+
+**A sonda de pods acusava os Jobs de migração.** Um Job que terminou tem container não-pronto por definição, e apareceria como achado em todo incidente. O problema não é a feiura: a sonda existe para **destacar** o anormal, e ruído fixo treina quem lê a ignorar a célula — o mesmo mecanismo que fez a [0018](0018-gate-em-critical.md) deixar o SAST sem bloquear.
+
+**A remediação piorava o sintoma.** Derrubar os dois pods juntos zerava os destinos saudáveis do ALB e trocava *"respondendo erro"* por *"indisponível"* por uns 30 segundos. Uma automação que converte falha parcial em queda total é uma automação que alguém desliga de madrugada — e aí se perde a automação **e** a confiança nela. Corrigido para um pod por vez.
+
+**A verificação era corrida por construção.** Ela media uma vez logo após o `rollout status`, que retorna no `Ready` do pod — mas o registro do destino novo no ALB leva mais tempo. O primeiro teste reprovou com `sonda=404 fluxo=503`: credencial consertada, entrega quebrada.
+
+Esse par de números vale o desenho inteiro. Se a verificação fosse uma chamada só, a conclusão seria *"não funcionou"* e a investigação iria para o lugar errado. Foi a **separação entre as duas medidas** que apontou o culpado — a mesma ideia que faz uma chamada HTTP distinguir cinco causas.
+
+E a correção prova qual dos dois problemas era real: depois de serializar a reciclagem, a verificação passou em **1 de 12 tentativas**. O orçamento de retentativa nunca foi usado. Não era o ALB lento; era a capacidade indo a zero.
+
 ## Alternativas descartadas
 
 **Monitor de log dedicado como gatilho**, disparando só no padrão `status 401`, com a Action burra. Elegante em teoria — *tornar o sinal específico para que a remediação possa ser simples* —, mas acopla a automação a uma **string de log**: mudar a mensagem de erro faz a remediação parar em silêncio. A sonda pergunta por comportamento, não por texto.

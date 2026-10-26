@@ -1,6 +1,6 @@
 # 0030 — O self-healing roda numa GitHub Action, não numa Lambda
 
-**Status:** aceita · **Domínio:** Observabilidade · CI/CD · **Data:** 22/10/2026 · **Fase:** 4
+**Status:** aceita, estendida pelas [0031](0031-self-healing-mora-no-iac.md) e [0032](0032-triagem-por-sondas-e-report-no-slack.md), **validada em execução** · **Domínio:** Observabilidade · CI/CD · **Data:** 22/10/2026 · **Fase:** 4
 
 ## Contexto
 
@@ -55,11 +55,23 @@ A Action alcança AWS e cluster **sem nenhuma permissão nova**.
 - Latência de ~30s entre o webhook e o início da remediação, por fila e boot de runner. Irrelevante para este caso; seria relevante para remediação de segundos
 - A automação **sobrevive ao destroy**, porque não é infraestrutura AWS
 
+## O que a escolha custou e rendeu, medido
+
+A cadeia rodou de ponta a ponta em 23/10: alerta → webhook → `repository_dispatch` → diagnóstico → remediação → verificação, em **50 segundos**. Detalhe na [0032](0032-triagem-por-sondas-e-report-no-slack.md).
+
+Isso ajusta duas previsões desta decisão:
+
+**A latência de ~30s estimada ficou em ~12s** entre o webhook e a primeira sonda. O boot do runner é mais rápido do que eu supunha, e o total de 50s é dominado pela remediação — reciclar dois pods em série —, não pela fila.
+
+**O log como artefato se confirmou, mas o Job Summary é melhor.** A previsão era que o log da Action bastaria como evidência. Na prática a tabela renderizada no `$GITHUB_STEP_SUMMARY` é o que se mostra; o log serve para depurar. A diferença importa porque o enunciado pede evidência de execução, e uma tabela carimbada vale mais que linhas de `echo`.
+
 ## O que esta decisão não resolve
 
-**Em qual repositório o workflow mora.** A remediação toca Secrets Manager e cluster, o que aponta para o `togglemaster-iac`; mas ela age sobre as aplicações, que vivem no `togglemaster-gitops`.
+**Em qual repositório o workflow mora.** Resolvido pela [0031](0031-self-healing-mora-no-iac.md): `togglemaster-iac`.
 
-**As salvaguardas.** A prática recomenda diagnosticar antes de remediar, limitar tentativas por incidente e escalar em vez de insistir — *"um serviço que se reinicia dez vezes por dia não está consertado, está mascarado"*. Elas precisam de desenho próprio, e são o que separa uma automação de remediação de um script que reinicia pod.
+**As salvaguardas.** Resolvidas pela [0032](0032-triagem-por-sondas-e-report-no-slack.md) — triagem por sondas de leitura, reproduzir antes de remediar, filtro de transição e disjuntor por ciclo de alerta.
+
+**O PagerDuty.** Segue fora por escolha, e é a única peça do enunciado sem nada construído.
 
 ## Onde aprofundar
 
