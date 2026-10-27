@@ -52,6 +52,7 @@ O texto original **não é editado** nos dois casos. Ele continua contando o rac
 | [0024](0024-encaixe-do-stage-datadog-na-esteira.md) | Plan do stage `datadog` na matriz, apply em esteira própria | aceita, estendida |
 | [0025](0025-baseline-em-spot.md) | Baseline em dois nós spot, com cinco tipos de instância | aceita |
 | [0027](0027-ciclo-de-vida-do-stage-datadog.md) | O stage `datadog` sobe com o ambiente e é destruído primeiro | aceita |
+| [0033](0033-pagerduty-em-stage-proprio.md) | Stage `pagerduty` próprio, para a chave não atravessar fronteira | aceita |
 
 ### Observabilidade
 
@@ -72,6 +73,7 @@ O texto original **não é editado** nos dois casos. Ele continua contando o rac
 | [0030](0030-self-healing-em-github-action.md) | O self-healing roda numa GitHub Action, não numa Lambda | aceita, estendida pelas 0031 e 0032 |
 | [0031](0031-self-healing-mora-no-iac.md) | O self-healing mora no `togglemaster-iac`, sem repositório novo | aceita |
 | [0032](0032-triagem-por-sondas-e-report-no-slack.md) | O Datadog notifica; a Action triagem por sondas, remedia e reporta | aceita |
+| [0033](0033-pagerduty-em-stage-proprio.md) | PagerDuty como código, num stage próprio com as duas pontas da integração | aceita |
 | [0027](0027-ciclo-de-vida-do-stage-datadog.md) | O stage `datadog` sobe com o ambiente e é destruído primeiro | aceita |
 
 ### CI/CD
@@ -133,6 +135,7 @@ Registradas enquanto a fase acontece. Em ordem cronológica, elas contam como el
 | [0030](0030-self-healing-em-github-action.md) | Self-healing em GitHub Action | 22/10 |
 | [0031](0031-self-healing-mora-no-iac.md) | O self-healing mora no `togglemaster-iac` | 22/10 |
 | [0032](0032-triagem-por-sondas-e-report-no-slack.md) | Triagem por sondas, e o Datadog notificando em paralelo | 22/10 |
+| [0033](0033-pagerduty-em-stage-proprio.md) | PagerDuty como código, num stage próprio | 27/10 |
 
 As duas últimas abrem a **rodada 3** — Datadog, alerta, PagerDuty, Slack e self-healing.
 

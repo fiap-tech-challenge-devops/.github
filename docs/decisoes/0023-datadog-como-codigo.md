@@ -72,9 +72,11 @@ Descartada por três motivos, em ordem de peso:
 | Peça | Terraform? |
 |---|---|
 | Monitor, dashboard | sim |
-| Canal do Slack que recebe o alerta | sim, **se** o workspace já estiver conectado |
+| Canal do Slack que recebe o alerta | sim, **se** o workspace já estiver conectado — `datadog/slack.tf` |
 | Autorizar o Datadog no workspace do Slack | **não** — OAuth no painel |
-| Serviço no PagerDuty e sua integration key | não pelo provider do Datadog; manual, ou o provider do PagerDuty |
+| Serviço no PagerDuty e sua integration key | sim, pelo provider do PagerDuty — ver [0033](0033-pagerduty-em-stage-proprio.md) |
+
+A linha do PagerDuty previa duas saídas e a escolha caiu na segunda: serviço, escalation policy e integration key são Terraform, no stage `pagerduty/`. O único resíduo manual é a conta e o usuário do plantão.
 
 Sobra um **núcleo manual irredutível**: conectar as contas. Ele vale estar documentado como pré-requisito, do mesmo jeito que o provedor OIDC e a role de CI estão na [0015](0015-oidc-sem-chave-estatica.md) — e pelo mesmo motivo, que é circularidade e não conveniência.
 
