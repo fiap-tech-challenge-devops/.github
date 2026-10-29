@@ -29,7 +29,25 @@ Os cinco serviços emitem traces, métricas e logs para um Collector no cluster,
 
 ## Trocar de conta Datadog
 
-A conta é um **trial**. Quando expirar, a troca é em um lugar só, porque o Collector lê site e key do ambiente:
+A conta é um **trial**. A troca tem duas frentes: a telemetria que o cluster envia, e os objetos que o Terraform gerencia na conta.
+
+> **Antes de trocar as keys, rode `IaC — Destroy` com o stage `datadog`.**
+>
+> O estado do stage `datadog` guarda ponteiros para objetos da conta velha. Depois da troca, o Terraform procura esses objetos na conta nova e a API do Datadog responde **500** no `datadog_webhook_custom_variable` em vez de 404 — o provider não distingue "sumiu" de "quebrou" e aborta. Monitor devolve 404 limpo e se recupera sozinho; o custom variable, não.
+>
+> O destroy **também faz refresh**, então depois de trocar as keys nem destruir funciona. Com o estado vazio antes da troca, a conta nova é construção do zero e o problema não existe.
+>
+> **Se as keys já foram trocadas**, o jeito é limpar o estado à mão. Ele contém só objetos `datadog_*` — esse stage não declara provider AWS — e todos moram numa conta inalcançável, então não há o que perder:
+>
+> ```bash
+> B=s3://togglemaster-iac-tfstate-$(aws sts get-caller-identity --query Account --output text)
+> aws s3 cp $B/togglemaster/datadog.tfstate $B/togglemaster/datadog.tfstate.conta-antiga
+> aws s3 rm $B/togglemaster/datadog.tfstate
+> ```
+>
+> Aconteceu em 29/10/2026. Destruir e reconstruir o ambiente **não** resolve: nada do estado do `datadog` é AWS.
+
+Para a telemetria:
 
 1. Criar a conta nova e gerar a **API key** em `Organization Settings` → `API Keys` (não a *Application key*)
 2. Atualizar o secret `TF_VARS_INFRA` no `togglemaster-iac`:
@@ -49,6 +67,16 @@ A conta é um **trial**. Quando expirar, a troca é em um lugar só, porque o Co
    ```
 
 Os passos 4 e 5 são os dois necessários, e o 4 é o que se esquece: sem ele o restart recarrega a key **antiga**. Foi o que aconteceu na primeira troca, em 15/10 — o `curl` de validação abaixo apontou 403 no cluster enquanto o Secrets Manager já tinha a key certa.
+
+Em 29/10 aconteceu de novo, por outro caminho: o cluster foi reconstruído **83 segundos antes** de o apply gravar a key nova, então o Collector nasceu com a antiga e o `SecretSynced` ficou verde apontando para o valor velho. **Condição pronta não quer dizer valor atual** — o que decide é comparar:
+
+```bash
+sm=$(aws secretsmanager get-secret-value --secret-id togglemaster/datadog/account \
+  --query SecretString --output text | sed -E 's/.*"DD_API_KEY"[^"]*"([^"]*)".*/\1/')
+k8s=$(kubectl -n observability get secret datadog-account \
+  -o jsonpath='{.data.DD_API_KEY}' | base64 -d)
+[ "$sm" = "$k8s" ] && echo iguais || echo DIFERENTES
+```
 
 Para conferir uma key antes de colocá-la no secret, ou para saber qual delas o cluster está usando:
 
