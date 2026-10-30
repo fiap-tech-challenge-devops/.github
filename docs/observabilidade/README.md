@@ -121,6 +121,7 @@ Nenhum PR, em nenhum repositório. O site vive no mesmo segredo que a key justam
 | [0032](../decisoes/0032-triagem-por-sondas-e-report-no-slack.md) | A triagem por sondas, e o Datadog notificando em paralelo à remediação |
 | [0033](../decisoes/0033-pagerduty-em-stage-proprio.md) | PagerDuty como código, e por que os oito monitores paginam |
 | [0034](../decisoes/0034-escada-de-severidade-e-espera-antes-de-remediar.md) | Aviso em 5% e crítico em 10%, e a espera que confirma antes de remediar |
+| [0035](../decisoes/0035-o-disparo-do-self-healing-fica-no-datadog.md) | Por que o PagerDuty não dispara o self-healing |
 | [0027](../decisoes/0027-ciclo-de-vida-do-stage-datadog.md) | Sobe com o ambiente, e é o primeiro a ser destruído |
 
 ## Documentação por serviço
