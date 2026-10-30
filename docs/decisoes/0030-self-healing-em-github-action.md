@@ -1,6 +1,6 @@
 # 0030 — O self-healing roda numa GitHub Action, não numa Lambda
 
-**Status:** aceita, estendida pelas [0031](0031-self-healing-mora-no-iac.md) e [0032](0032-triagem-por-sondas-e-report-no-slack.md), **validada em execução** · **Domínio:** Observabilidade · CI/CD · **Data:** 22/10/2026 · **Fase:** 4
+**Status:** aceita, **estendida pelas [0031](0031-self-healing-mora-no-iac.md) e [0032](0032-triagem-por-sondas-e-report-no-slack.md)** · **Domínio:** Observabilidade · CI/CD · **Validação:** em execução · **Data:** 22/10/2026 · **Fase:** 4
 
 ## Contexto
 

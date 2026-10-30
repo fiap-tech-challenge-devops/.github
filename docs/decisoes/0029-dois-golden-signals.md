@@ -4,7 +4,7 @@
 
 ## Contexto
 
-O enunciado pede **um** alerta — taxa de 5xx do `auth-service` acima de 5%. Um monitor atenderia.
+O enunciado pede **um** alerta, e exemplifica com a taxa de 5xx do `auth-service` acima de 5%. Um monitor atenderia. O 5% é ilustração, não requisito — ver [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md), onde ele virou o patamar de aviso.
 
 Mas um alerta sozinho não diz nada sobre o vizinho. Quando o `evaluation` começa a errar, a primeira pergunta é se o problema é dele ou de quem ele chama — e sem monitor nos outros serviços não há como responder sem abrir o painel e investigar à mão.
 

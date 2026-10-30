@@ -1,6 +1,8 @@
 # 0033 — PagerDuty como código, num stage próprio
 
-**Status:** aceita, validada em execução · **Domínio:** Observabilidade · IaC · **Data:** 27/10/2026 · **Fase:** 4
+**Status:** aceita, **exceto no desenho de dois níveis, superado pela [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md)** · **Domínio:** Observabilidade · IaC · **Validação:** em execução · **Data:** 27/10/2026 · **Fase:** 4
+
+> **O que mudou:** a seção *"O que acorda alguém"* registrou um desenho de dois níveis — `last_15m` com limiar ~50% para o PagerDuty — como *"o desenho correto para operação real"*. Ele está **descartado** pela [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md): a matemática de lá olhou só a subida e esqueceu a descida, e uma janela de quinze minutos leva quinze minutos para drenar. Todo o resto desta decisão segue em vigor.
 
 ## Contexto
 
