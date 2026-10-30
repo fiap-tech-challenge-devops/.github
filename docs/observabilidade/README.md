@@ -24,7 +24,7 @@ Os cinco serviços emitem traces, métricas e logs para um Collector no cluster,
 | Datadog | pronto — APM, Service Map e trace distribuído validados em 15/10/2026 |
 | Alertas | pronto — 8 monitores, dois golden signals por serviço; os de taxa de erro com aviso em 5% e crítico em 10% |
 | ChatOps no Slack | pronto — a Action reporta por incoming webhook, e o monitor pelo handle `@slack-ToggleMaster-alertas-prod` |
-| PagerDuty | **pronto** — stage próprio, incidente aberto pelo monitor em 27/10/2026 |
+| PagerDuty | **pronto** — stage próprio, incidente aberto pelo monitor em 27/10/2026 e fechado sozinho pela integração em 30/10 |
 | Self-healing | **validado em execução** — cadeia completa em 50s, 23/10/2026. A janela de confirmação de 90s que entrou em 30/10 ainda **não** rodou ponta a ponta |
 
 ## Trocar de conta Datadog

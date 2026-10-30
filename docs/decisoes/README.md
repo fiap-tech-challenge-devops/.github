@@ -37,6 +37,12 @@ Um erro de fato no texto — número errado, citação torta, nome de recurso qu
 
 O teste é: se a frase corrigida muda **o que foi decidido ou por quê**, é decisão superada e vale a nota no topo. Se muda só o que é verdade sobre o mundo, é correção.
 
+### Item em aberto que foi respondido
+
+A seção *"O que esta decisão não resolve"* costuma registrar perguntas sem resposta. Quando uma delas é respondida, **o texto original fica** — ele era verdadeiro quando foi escrito — e a resposta entra **logo abaixo, em citação, com data**.
+
+Não é correção nem supersessão: a decisão continua intacta, só o mundo mudou de estado. E a data importa mais aqui que nos outros casos, porque o valor do registro é saber *quando* se passou a saber.
+
 ### Quando uma ADR carrega mais que a decisão
 
 As linhas acima dizem que narrativa vai para `docs/desafios/` de cada repositório. Algumas ADRs desta série desobedecem de propósito, carregando uma seção de achados de execução — o que só se descobriu aplicando.
