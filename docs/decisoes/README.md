@@ -98,6 +98,7 @@ Isso acontece quando **não existe documento de desafio para aquele assunto** e 
 | [0032](0032-triagem-por-sondas-e-report-no-slack.md) | O Datadog notifica; a Action triagem por sondas, remedia e reporta | aceita |
 | [0033](0033-pagerduty-em-stage-proprio.md) | PagerDuty como código, num stage próprio com as duas pontas da integração | aceita |
 | [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md) | Aviso em 5% e crítico em 10%, com janela de confirmação antes de remediar | aceita |
+| [0035](0035-a-action-fecha-o-incidente.md) | A Action fecha o incidente no PagerDuty, mas não é disparada por ele | aceita |
 
 ### CI/CD
 
@@ -119,6 +120,7 @@ Isso acontece quando **não existe documento de desafio para aquele assunto** e 
 | [0031](0031-self-healing-mora-no-iac.md) | O workflow de self-healing no `togglemaster-iac`, sem repositório novo | aceita |
 | [0032](0032-triagem-por-sondas-e-report-no-slack.md) | Filtro de transição, disjuntor por ciclo de alerta e report no Job Summary | aceita |
 | [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md) | Janela de confirmação re-sondando antes de remediar, com o tempo em variável | aceita |
+| [0035](0035-a-action-fecha-o-incidente.md) | Nota e resolve no incidente pela API, como último passo da triagem | aceita |
 
 ### Serviços
 
@@ -162,6 +164,7 @@ Registradas enquanto a fase acontece. Em ordem cronológica, elas contam como el
 | [0032](0032-triagem-por-sondas-e-report-no-slack.md) | Triagem por sondas, e o Datadog notificando em paralelo | 22/10 |
 | [0033](0033-pagerduty-em-stage-proprio.md) | PagerDuty como código, num stage próprio | 27/10 |
 | [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md) | Escada de severidade, e espera antes de remediar | 30/10 |
+| [0035](0035-a-action-fecha-o-incidente.md) | A Action fecha o incidente, e por que não é disparada por ele | 30/10 |
 
 As três últimas são da **rodada 3** — Datadog, alerta, PagerDuty, Slack e self-healing.
 

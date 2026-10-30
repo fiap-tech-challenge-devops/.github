@@ -1,6 +1,8 @@
 # 0032 — O Datadog notifica, a Action diagnostica e reporta
 
-**Status:** aceita · **Domínio:** Observabilidade · CI/CD · **Data:** 22/10/2026 · **Fase:** 4
+**Status:** aceita, **estendida pela [0035](0035-a-action-fecha-o-incidente.md)** · **Domínio:** Observabilidade · CI/CD · **Validação:** em execução · **Data:** 22/10/2026 · **Fase:** 4
+
+> **O que mudou:** o report da Action deixou de ser só Slack e Job Summary. Ela passou a acrescentar nota no incidente do PagerDuty e a resolvê-lo quando a verificação passa — ver [0035](0035-a-action-fecha-o-incidente.md). O paralelismo decidido aqui **continua intacto**: o disparo segue vindo do Datadog, e a 0035 recusou explicitamente funilar pelo PagerDuty para não serializar os dois caminhos.
 
 ## Contexto
 
