@@ -1,6 +1,8 @@
 # 0033 — PagerDuty como código, num stage próprio
 
-**Status:** aceita, validada em execução · **Domínio:** Observabilidade · IaC · **Data:** 27/10/2026 · **Fase:** 4
+**Status:** aceita, **exceto no desenho de dois níveis, superado pela [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md)** · **Domínio:** Observabilidade · IaC · **Validação:** em execução · **Data:** 27/10/2026 · **Fase:** 4
+
+> **O que mudou:** a seção *"O que acorda alguém"* registrou um desenho de dois níveis — `last_15m` com limiar ~50% para o PagerDuty — como *"o desenho correto para operação real"*. Ele está **descartado** pela [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md): a matemática de lá olhou só a subida e esqueceu a descida, e uma janela de quinze minutos leva quinze minutos para drenar. Todo o resto desta decisão segue em vigor.
 
 ## Contexto
 
@@ -19,8 +21,6 @@ Foram consideradas duas alternativas mais defensáveis para o dia a dia:
 **Dois níveis.** Nível 1 em `last_5m` para Slack e remediação; nível 2 em `last_15m` com limiar ~50% para o PagerDuty, significando *"a automação não deu conta"*. A matemática separa os casos: remediado, a razão sobre 15 minutos chega a ~27% e nunca cruza; não remediado, passa de 50% por volta dos 7,5 minutos. Implementaria literalmente a salvaguarda *"escalar em vez de insistir"* que a [0030](0030-self-healing-em-github-action.md) listou.
 
 Ficam registradas como o desenho correto para operação real. A escolha atual é de demonstração, e isso está dito.
-
-> **Atualização, 30/10:** o desenho de dois níveis acima foi **descartado** pela [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md). A matemática daqui olhou só a subida e esqueceu a descida: a janela de `last_15m` leva quinze minutos para drenar, então o nível 2 ficaria em alerta por mais de dez minutos **depois** de o self-healing curar — acordando o plantão para um incidente resolvido, que é o ruído que esta seção queria evitar. O que entrou no lugar foi uma escada de severidade no mesmo monitor e na mesma janela, que recupera junto com a falha.
 
 ## Onde os recursos moram
 

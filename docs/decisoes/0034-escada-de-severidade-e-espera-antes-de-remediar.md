@@ -1,6 +1,6 @@
 # 0034 — Escada de severidade, e espera antes de remediar
 
-**Status:** aceita, não validada em execução · **Domínio:** Observabilidade · **Data:** 30/10/2026 · **Fase:** 4
+**Status:** aceita · **Domínio:** Observabilidade · CI/CD · **Validação:** não validada · **Data:** 30/10/2026 · **Fase:** 4
 
 ## Contexto
 

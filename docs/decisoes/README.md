@@ -12,7 +12,7 @@ E um registro de decisão não é corrigido quando muda — ele é **superado po
 
 ## Formato
 
-Cabeçalho com `Status`, `Domínio`, `Data` e `Fase`. Depois: contexto, decisão, alternativas descartadas, consequências e onde aprofundar.
+Cabeçalho com `Status`, `Domínio`, `Data` e `Fase`, mais `Validação` quando couber. Depois: contexto, decisão, alternativas descartadas, consequências e onde aprofundar.
 
 **Status possíveis:** `aceita`, `superada por NNNN`, `revertida`.
 
@@ -22,6 +22,26 @@ Decisão raramente envelhece inteira — costuma ser um ponto dela que cai. Para
 - `aceita, estendida pela NNNN`
 
 O texto original **não é editado** nos dois casos. Ele continua contando o raciocínio da época, que é o que torna a série uma linha do tempo em vez de um retrato do presente.
+
+### `Status` e `Validação` são eixos diferentes
+
+`Status` responde **"isto me vincula?"**. Se a decisão já foi provada rodando é outra pergunta, e misturar as duas no mesmo campo torna impossível responder a primeira sem ler todas as variantes da segunda.
+
+**Validação possíveis:** `em execução`, `não validada`, `parcial`.
+
+O campo é **opcional, e só aparece quando a decisão faz uma afirmação que a execução pode confirmar ou desmentir** — "o self-healing conserta em 50s" é dessas; "o ECR mora no `bootstrap`" não é. Ausente significa que não há o que validar, não que ninguém testou.
+
+### Correção factual não é decisão superada
+
+Um erro de fato no texto — número errado, citação torta, nome de recurso que nunca existiu — **é corrigido no lugar**, sem nota e sem superar nada. A imutabilidade protege *o raciocínio da época*, não um erro de leitura.
+
+O teste é: se a frase corrigida muda **o que foi decidido ou por quê**, é decisão superada e vale a nota no topo. Se muda só o que é verdade sobre o mundo, é correção.
+
+### Quando uma ADR carrega mais que a decisão
+
+As linhas acima dizem que narrativa vai para `docs/desafios/` de cada repositório. Algumas ADRs desta série desobedecem de propósito, carregando uma seção de achados de execução — o que só se descobriu aplicando.
+
+Isso acontece quando **não existe documento de desafio para aquele assunto** e o achado se perderia. É desvio consciente, não descuido. Quando o desafio existir, o achado migra e a ADR fica com o link.
 
 ---
 
@@ -61,21 +81,23 @@ O texto original **não é editado** nos dois casos. Ele continua contando o rac
 | [0003](0003-observabilidade-no-gitops.md) | Stack de observabilidade no GitOps, não no Terraform | aceita |
 | [0004](0004-collector-no-meio.md) | Collector entre as aplicações e os backends | aceita |
 | [0005](0005-datadog-como-apm.md) | Datadog como APM | aceita |
+| [0007](0007-permanecer-em-go-1-25.md) | A linha 1.47 do OTel exige Go 1.26: fica tudo em OTel 1.46 | aceita |
 | [0008](0008-padrao-de-resource-attributes.md) | Padrão de resource attributes | aceita |
 | [0009](0009-caminho-dos-logs.md) | Log por OTLP no local, stdout mais `filelog` em produção | aceita |
 | [0010](0010-amostragem-em-100.md) | Amostragem de traces em 100% | aceita |
+| [0011](0011-go-redis-v8-para-v9.md) | `go-redis` para a v9, único caminho para instrumentar o cache | aceita |
 | [0021](0021-api-key-do-datadog-por-tf-vars.md) | A API key do Datadog por `tf-vars` | aceita |
 | [0022](0022-datadog-connector-desde-o-inicio.md) | O `datadog/connector` junto do exporter | aceita |
 | [0023](0023-datadog-como-codigo.md) | O que é construído no Datadog vira Terraform, num stage próprio | aceita, exceto no destroy |
 | [0026](0026-sem-dashboard-no-datadog.md) | Não haverá dashboard customizado no Datadog | aceita |
+| [0027](0027-ciclo-de-vida-do-stage-datadog.md) | O stage `datadog` sobe com o ambiente e é destruído primeiro | aceita |
 | [0028](0028-slack-para-chatops.md) | Slack para o ChatOps, aceitando um passo manual de OAuth | aceita |
 | [0029](0029-dois-golden-signals.md) | Latência e taxa de erro; tráfego e saturação ficam como lacuna | aceita |
 | [0030](0030-self-healing-em-github-action.md) | O self-healing roda numa GitHub Action, não numa Lambda | aceita, estendida pelas 0031 e 0032 |
 | [0031](0031-self-healing-mora-no-iac.md) | O self-healing mora no `togglemaster-iac`, sem repositório novo | aceita |
 | [0032](0032-triagem-por-sondas-e-report-no-slack.md) | O Datadog notifica; a Action triagem por sondas, remedia e reporta | aceita |
 | [0033](0033-pagerduty-em-stage-proprio.md) | PagerDuty como código, num stage próprio com as duas pontas da integração | aceita |
-| [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md) | Aviso em 5% e crítico em 10%, com janela de confirmação antes de remediar | aceita, não validada |
-| [0027](0027-ciclo-de-vida-do-stage-datadog.md) | O stage `datadog` sobe com o ambiente e é destruído primeiro | aceita |
+| [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md) | Aviso em 5% e crítico em 10%, com janela de confirmação antes de remediar | aceita |
 
 ### CI/CD
 
@@ -93,9 +115,10 @@ O texto original **não é editado** nos dois casos. Ele continua contando o rac
 | [0021](0021-api-key-do-datadog-por-tf-vars.md) | A API key do Datadog por `tf-vars`, e o `plan` aceitando o input | aceita |
 | [0024](0024-encaixe-do-stage-datadog-na-esteira.md) | Plan do stage `datadog` na matriz, apply em esteira própria | aceita, estendida |
 | [0027](0027-ciclo-de-vida-do-stage-datadog.md) | O stage `datadog` no apply e no destroy | aceita |
+| [0030](0030-self-healing-em-github-action.md) | A remediação executa numa Action disparada por `repository_dispatch` | aceita, estendida |
 | [0031](0031-self-healing-mora-no-iac.md) | O workflow de self-healing no `togglemaster-iac`, sem repositório novo | aceita |
 | [0032](0032-triagem-por-sondas-e-report-no-slack.md) | Filtro de transição, disjuntor por ciclo de alerta e report no Job Summary | aceita |
-| [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md) | Janela de confirmação re-sondando antes de remediar, com o tempo em variável | aceita, não validada |
+| [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md) | Janela de confirmação re-sondando antes de remediar, com o tempo em variável | aceita |
 
 ### Serviços
 
@@ -171,7 +194,14 @@ O código daquele período vive no [`togglemaster-platform-legacy`](https://gith
 ## Como acrescentar
 
 1. Copie o arquivo anterior e incremente o número
-2. Preencha `Domínio` e `Fase` no cabeçalho
+2. Preencha `Domínio` e `Fase` no cabeçalho, e `Validação` se houver o que validar
 3. Preencha contexto, decisão, **alternativas descartadas** e consequências
-4. Acrescente nas duas tabelas acima
+4. Acrescente nas tabelas por domínio — **uma linha por domínio declarado** — e na da fase
 5. Se superar uma decisão existente, marque a antiga como `superada por NNNN` — **não apague**
+6. Rode [`./verificar.sh`](verificar.sh)
+
+### Por que as tabelas são escritas à mão
+
+Porque a descrição de cada linha diz por que aquela decisão importa **para aquele domínio**, e isso não sai do título. A [0032](0032-triagem-por-sondas-e-report-no-slack.md) é o exemplo: em Observabilidade ela é *"o Datadog notifica; a Action tria por sondas, remedia e reporta"*; em CI/CD é *"filtro de transição, disjuntor por ciclo de alerta e report no Job Summary"*. Gerar as tabelas a partir do título achataria as duas na mesma frase.
+
+O preço disso é deriva, e ela já aconteceu: a 0027 ficou fora de ordem na tabela de Observabilidade e ninguém viu; três ADRs declaravam um domínio em que não apareciam. O `verificar.sh` é o que cobra o preço — ele confere o campo `Domínio` contra as tabelas nos dois sentidos, a ordem numérica, a cobertura, o vocabulário de `Status` e `Validação`, e os links. Sai `1` em qualquer divergência, então serve de passo de esteira.
