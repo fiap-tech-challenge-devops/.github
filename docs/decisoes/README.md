@@ -74,6 +74,7 @@ O texto original **não é editado** nos dois casos. Ele continua contando o rac
 | [0031](0031-self-healing-mora-no-iac.md) | O self-healing mora no `togglemaster-iac`, sem repositório novo | aceita |
 | [0032](0032-triagem-por-sondas-e-report-no-slack.md) | O Datadog notifica; a Action triagem por sondas, remedia e reporta | aceita |
 | [0033](0033-pagerduty-em-stage-proprio.md) | PagerDuty como código, num stage próprio com as duas pontas da integração | aceita |
+| [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md) | Aviso em 5% e crítico em 10%, com janela de confirmação antes de remediar | aceita, não validada |
 | [0027](0027-ciclo-de-vida-do-stage-datadog.md) | O stage `datadog` sobe com o ambiente e é destruído primeiro | aceita |
 
 ### CI/CD
@@ -94,6 +95,7 @@ O texto original **não é editado** nos dois casos. Ele continua contando o rac
 | [0027](0027-ciclo-de-vida-do-stage-datadog.md) | O stage `datadog` no apply e no destroy | aceita |
 | [0031](0031-self-healing-mora-no-iac.md) | O workflow de self-healing no `togglemaster-iac`, sem repositório novo | aceita |
 | [0032](0032-triagem-por-sondas-e-report-no-slack.md) | Filtro de transição, disjuntor por ciclo de alerta e report no Job Summary | aceita |
+| [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md) | Janela de confirmação re-sondando antes de remediar, com o tempo em variável | aceita, não validada |
 
 ### Serviços
 
@@ -136,8 +138,9 @@ Registradas enquanto a fase acontece. Em ordem cronológica, elas contam como el
 | [0031](0031-self-healing-mora-no-iac.md) | O self-healing mora no `togglemaster-iac` | 22/10 |
 | [0032](0032-triagem-por-sondas-e-report-no-slack.md) | Triagem por sondas, e o Datadog notificando em paralelo | 22/10 |
 | [0033](0033-pagerduty-em-stage-proprio.md) | PagerDuty como código, num stage próprio | 27/10 |
+| [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md) | Escada de severidade, e espera antes de remediar | 30/10 |
 
-As duas últimas abrem a **rodada 3** — Datadog, alerta, PagerDuty, Slack e self-healing.
+As três últimas são da **rodada 3** — Datadog, alerta, PagerDuty, Slack e self-healing.
 
 ### Fase 3 — IaC, DevSecOps e GitOps
 

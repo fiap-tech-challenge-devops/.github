@@ -20,6 +20,8 @@ Foram consideradas duas alternativas mais defensáveis para o dia a dia:
 
 Ficam registradas como o desenho correto para operação real. A escolha atual é de demonstração, e isso está dito.
 
+> **Atualização, 30/10:** o desenho de dois níveis acima foi **descartado** pela [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md). A matemática daqui olhou só a subida e esqueceu a descida: a janela de `last_15m` leva quinze minutos para drenar, então o nível 2 ficaria em alerta por mais de dez minutos **depois** de o self-healing curar — acordando o plantão para um incidente resolvido, que é o ruído que esta seção queria evitar. O que entrou no lugar foi uma escada de severidade no mesmo monitor e na mesma janela, que recupera junto com a falha.
+
 ## Onde os recursos moram
 
 **Stage próprio `pagerduty/`, com as duas pontas da integração.**
