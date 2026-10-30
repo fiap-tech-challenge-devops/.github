@@ -84,6 +84,12 @@ Os dois caminhos em paralelo, sem um orquestrar o outro — o desenho da [0032](
 
 **O fechamento automático do incidente.** O esperado é que o Datadog mande o `resolve` quando o monitor recuperar. É o comportamento documentado da integração e ainda não foi observado aqui. Se não acontecer, cada quebra deixa incidente aberto, e em semanas o Console vira ruído — o mesmo mecanismo pelo qual se aprende a ignorar um alerta.
 
+> **Observado em 30/10/2026: funciona.** Incidente **#5** do serviço `togglemaster-prod`, `Triggered through the API` às 14:38 e `Resolved through the integration API` às 14:54.
+>
+> Os dezesseis minutos não são lentidão da integração: são a janela de 5 minutos do monitor drenando, mais o `evaluation_delay` de 60s. O sistema já estava são desde ~14:40, quando o self-healing terminou.
+>
+> A preocupação acima não se materializa, então **nada precisa ser construído para isto**. Uma tentativa de fazer a Action fechar o incidente foi aberta e descartada por esse motivo — [togglemaster-iac#48](https://github.com/fiap-tech-challenge-devops/togglemaster-iac/pull/48), fechada sem merge.
+
 **Se o Datadog recusa um monitor que cita um handle inexistente.** A pergunta ficou acadêmica quando o `needs:` entrou, mas segue sem resposta.
 
 ## Onde aprofundar

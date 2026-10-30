@@ -37,6 +37,12 @@ Um erro de fato no texto — número errado, citação torta, nome de recurso qu
 
 O teste é: se a frase corrigida muda **o que foi decidido ou por quê**, é decisão superada e vale a nota no topo. Se muda só o que é verdade sobre o mundo, é correção.
 
+### Item em aberto que foi respondido
+
+A seção *"O que esta decisão não resolve"* costuma registrar perguntas sem resposta. Quando uma delas é respondida, **o texto original fica** — ele era verdadeiro quando foi escrito — e a resposta entra **logo abaixo, em citação, com data**.
+
+Não é correção nem supersessão: a decisão continua intacta, só o mundo mudou de estado. E a data importa mais aqui que nos outros casos, porque o valor do registro é saber *quando* se passou a saber.
+
 ### Quando uma ADR carrega mais que a decisão
 
 As linhas acima dizem que narrativa vai para `docs/desafios/` de cada repositório. Algumas ADRs desta série desobedecem de propósito, carregando uma seção de achados de execução — o que só se descobriu aplicando.
@@ -98,6 +104,7 @@ Isso acontece quando **não existe documento de desafio para aquele assunto** e 
 | [0032](0032-triagem-por-sondas-e-report-no-slack.md) | O Datadog notifica; a Action triagem por sondas, remedia e reporta | aceita |
 | [0033](0033-pagerduty-em-stage-proprio.md) | PagerDuty como código, num stage próprio com as duas pontas da integração | aceita |
 | [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md) | Aviso em 5% e crítico em 10%, com janela de confirmação antes de remediar | aceita |
+| [0035](0035-o-disparo-do-self-healing-fica-no-datadog.md) | O PagerDuty é destino de notificação, não orquestrador da remediação | aceita |
 
 ### CI/CD
 
@@ -119,6 +126,7 @@ Isso acontece quando **não existe documento de desafio para aquele assunto** e 
 | [0031](0031-self-healing-mora-no-iac.md) | O workflow de self-healing no `togglemaster-iac`, sem repositório novo | aceita |
 | [0032](0032-triagem-por-sondas-e-report-no-slack.md) | Filtro de transição, disjuntor por ciclo de alerta e report no Job Summary | aceita |
 | [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md) | Janela de confirmação re-sondando antes de remediar, com o tempo em variável | aceita |
+| [0035](0035-o-disparo-do-self-healing-fica-no-datadog.md) | O `repository_dispatch` é o contrato de entrada, e quem dispara precisa montá-lo | aceita |
 
 ### Serviços
 
@@ -162,6 +170,7 @@ Registradas enquanto a fase acontece. Em ordem cronológica, elas contam como el
 | [0032](0032-triagem-por-sondas-e-report-no-slack.md) | Triagem por sondas, e o Datadog notificando em paralelo | 22/10 |
 | [0033](0033-pagerduty-em-stage-proprio.md) | PagerDuty como código, num stage próprio | 27/10 |
 | [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md) | Escada de severidade, e espera antes de remediar | 30/10 |
+| [0035](0035-o-disparo-do-self-healing-fica-no-datadog.md) | O disparo fica no Datadog, não passa pelo PagerDuty | 30/10 |
 
 As três últimas são da **rodada 3** — Datadog, alerta, PagerDuty, Slack e self-healing.
 
