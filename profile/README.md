@@ -11,6 +11,9 @@
 ![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-DevSecOps-2088FF?logo=githubactions&logoColor=white)
 ![Go](https://img.shields.io/badge/Go-1.25-00ADD8?logo=go&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
+![OpenTelemetry](https://img.shields.io/badge/OpenTelemetry-traces·métricas·logs-425CC7?logo=opentelemetry&logoColor=white)
+![Datadog](https://img.shields.io/badge/Datadog-APM-632CA6?logo=datadog&logoColor=white)
+![Grafana](https://img.shields.io/badge/Grafana-Prometheus·Loki-F46800?logo=grafana&logoColor=white)
 
 </div>
 
@@ -38,13 +41,13 @@ Mas a aplicação é o meio, não o fim. **O que este projeto demonstra é o cic
 
 | Área | O que está implementado |
 |---|---|
-| **Infraestrutura como código** | Terraform em módulos versionados e reutilizáveis, estado remoto em S3, três stages com ciclos de vida independentes |
+| **Infraestrutura como código** | Terraform em módulos versionados e reutilizáveis, estado remoto em S3, cinco stages com ciclos de vida independentes |
 | **CI com DevSecOps** | Build, testes, lint, SAST, SCA e varredura de segredos em toda alteração, com vulnerabilidade crítica reprovando a esteira |
 | **Entrega contínua por GitOps** | Argo CD sincronizando o cluster a partir de um repositório de manifests, sem `kubectl` manual |
 | **Kubernetes em produção** | Amazon EKS com escalabilidade automática de pods (HPA e KEDA) e de nós (Karpenter, com preferência por Spot) |
 | **Segurança** | Autenticação por OIDC sem chaves estáticas, segredos no Secrets Manager entregues via External Secrets, imagens com tag imutável e rastreáveis até o commit |
 | **Governança de custo** | Teto de vCPU no provisionamento de nós, esteira de destroy sob demanda e estimativa de custo documentada |
-| **Observabilidade** | Stack de métricas preparada no cluster e ligada sob demanda — é a frente em evolução no momento |
+| **Observabilidade** | Os cinco serviços instrumentados com OpenTelemetry, um Collector no cluster distribuindo traces, métricas e logs para três backends, oito monitores declarados em Terraform e remediação automática disparada por alerta |
 
 A regra que organiza tudo isso é a mesma do primeiro dia: **se não está no código, não existe.** Nada é aplicado à mão, nem na AWS nem no cluster.
 
@@ -83,15 +86,19 @@ O `evaluation-service` é o caminho de leitura: recebe a requisição, consulta 
 
 ## Infraestrutura
 
-Terraform dividido em três stages com estados independentes, separados pelo ciclo de vida dos recursos.
+Terraform dividido em cinco stages com estados independentes, separados pelo ciclo de vida dos recursos.
 
 | Stage | Provisiona |
 |---|---|
 | `bootstrap` | Bucket S3 do estado, cinco repositórios ECR e a role de CI. Sobrevive aos destroys |
 | `infra` | VPC, EKS, três RDS PostgreSQL, ElastiCache, DynamoDB, SQS, KMS, Secrets Manager e roles IRSA |
 | `addons` | Argo CD, External Secrets, KEDA, Karpenter, AWS Load Balancer Controller e metrics-server |
+| `datadog` | Monitores, alertas e o webhook que dispara a remediação |
+| `pagerduty` | Serviço de plantão, política de escalonamento e as duas pontas da integração com o Datadog |
 
 Os stages se comunicam por parâmetros no SSM Parameter Store, não por acoplamento de estados. Nenhum segredo de longa duração da AWS existe nos repositórios: as esteiras autenticam por OIDC, assumindo uma role com trust policy restrita por repositório.
+
+Os dois últimos stages não falam com a AWS — só com a API do SaaS. Isso lhes dá uma propriedade útil: o `plan` deles funciona com o ambiente destruído, que é o estado normal fora do horário de uso.
 
 ---
 
@@ -125,6 +132,61 @@ Nenhuma etapa envolve alguém rodando `kubectl` na própria máquina. O commit n
 
 ---
 
+## Observabilidade
+
+Os cinco serviços emitem **traces, métricas e logs** por OpenTelemetry. Nenhum deles conhece o backend: todos falam OTLP com um **Collector** no cluster, e é o Collector que decide para onde cada sinal vai.
+
+```
+cinco serviços ──OTLP──▶  Collector  ──┬──▶ Datadog                 APM, Service Map, monitores
+                                       ├──▶ Prometheus (scrape) ──┐
+                                       └──▶ Loki (OTLP) ──────────┴──▶ Grafana
+```
+
+Somar ou trocar um backend é mudar a configuração do Collector, não as aplicações — é a razão de ele existir. As métricas de aplicação chegam ao Prometheus por um `ServiceMonitor` no próprio Collector, e os logs chegam ao Loki por OTLP; o dashboard do grupo **lê das duas fontes na mesma tela** — requisições HTTP por serviço e uso dos nós vindo do Prometheus, logs ao vivo dos microsserviços vindo do Loki.
+
+A propagação de contexto atravessa as duas linguagens e também a fila: uma avaliação de flag vira **um trace só**, do `evaluation-service` em Go até o `analytics-service` em Python, ligados por *span link* através do SQS.
+
+Cada peça entra pelo caminho do seu ciclo de vida:
+
+| Peça | Mora em | Chega por |
+|---|---|---|
+| Instrumentação | nos cinco serviços | a própria imagem |
+| Collector, Prometheus, Grafana e Loki | `togglemaster-gitops` | Helm chart sincronizado pelo Argo CD |
+| Monitores, alertas e webhook | `togglemaster-iac`, stage `datadog` | `terraform apply` |
+| Serviço e plantão do PagerDuty | `togglemaster-iac`, stage `pagerduty` | `terraform apply` |
+
+Nada de alerta ou de plantão é clicado no painel. **A regra vale também para o SaaS.**
+
+### Alertas
+
+Oito monitores: **dois golden signals** por serviço — taxa de erro e latência p95 —, com limiar de latência definido pelo papel de cada um, de 500ms no `auth-service` a 2s no `evaluation-service`, que faz fan-out para quatro dependências.
+
+A taxa de erro tem dois patamares, e o que os separa não é gravidade percebida: é **quem responde**.
+
+| Patamar | O que dispara |
+|---|---|
+| **aviso**, 5% | mensagem no canal do Slack. É para olhar os traces antes de virar incidente |
+| **crítico**, 10% | abre incidente no PagerDuty **e** autoriza a remediação automática |
+
+### Self-healing
+
+No patamar crítico, o Datadog chama um `repository_dispatch` no GitHub e uma Action assume. Ela **não sai remediando** — primeiro investiga:
+
+```
+alerta crítico
+  → filtro de transição e disjuntor: no máximo 2 tentativas por ciclo de alerta
+  → sondas de HTTP, pods, nós e RDS, para identificar a causa
+  → se a causa for credencial, espera 90s re-sondando para confirmar que persiste
+  → remediação: reverte a versão do segredo e recicla os pods
+  → verificação, relatório no Job Summary e aviso no Slack
+```
+
+As sondas existem para que a automação saiba o que está consertando: se a causa não for a que ela sabe tratar, ela **reporta e não age**. A espera de 90 segundos está ali pelo mesmo motivo — não remediar uma falha que já passou sozinha.
+
+Notificar e agir correm **em paralelo**, nunca em série. Se o Slack cair, o incidente abre e a remediação roda; se o PagerDuty cair, o Slack avisa e a remediação roda. Nenhum dos caminhos é pré-requisito do outro, porque um canal de notificação quebrado não deveria impedir o conserto.
+
+---
+
 ## As fases do desafio
 
 | Fase | Entrega |
@@ -132,6 +194,7 @@ Nenhuma etapa envolve alguém rodando `kubectl` na própria máquina. O commit n
 | **1** | Os cinco microsserviços containerizados, orquestrados localmente com Docker Compose |
 | **2** | Deploy em Kubernetes na AWS (EKS), com escalabilidade automática, gestão de segredos e recursos gerenciados |
 | **3** | Infraestrutura como código, esteiras de CI com DevSecOps e entrega contínua por GitOps com Argo CD |
+| **4** | Observabilidade de ponta a ponta: traces, métricas e logs por OpenTelemetry, APM comercial e stack opensource, alertas, ChatOps no Slack, plantão no PagerDuty e remediação automática |
 
 ---
 
@@ -142,3 +205,5 @@ Nenhuma etapa envolve alguém rodando `kubectl` na própria máquina. O commit n
 Cada repositório traz, em `docs/`, o registro dos problemas reais enfrentados e como foram resolvidos — de um CVE crítico em dependência indireta do Go até a ordem correta de destruição do cluster. É a parte do trabalho que não aparece no código final.
 
 E o [registro de decisões](https://github.com/fiap-tech-challenge-devops/.github/tree/main/docs/decisoes) guarda o outro lado: o que foi escolhido, o que foi descartado e por quê.
+
+A observabilidade é o único domínio cuja documentação é **transversal** — atravessa os cinco serviços, o GitOps e o Terraform, e por isso não cabe em nenhum repositório sozinho. Ela tem [hub próprio](https://github.com/fiap-tech-challenge-devops/.github/tree/main/docs/observabilidade), com o guia de como o dado flui, a instrumentação em Python e Go lado a lado, e o roteiro para encenar uma falha e ver a cadeia inteira reagir.

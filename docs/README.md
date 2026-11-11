@@ -26,9 +26,9 @@ Cada hub diz o que o domínio cobre, quais decisões se aplicam a ele, e aponta 
 
 Registro das escolhas que vinculam mais de um repositório: o que foi decidido, **o que foi descartado** e por quê.
 
-→ [**Índice de decisões**](decisoes/) · 33 registros
+→ [**Índice de decisões**](decisoes/) · 35 registros
 
-O número é a ordem em que a decisão foi **registrada**, não em que foi tomada: as da Fase 3 foram escritas retroativamente, durante a Fase 4, e por isso levaram os números altos.
+O número é a ordem em que a decisão foi **registrada**, não em que foi tomada. O registro começou na Fase 4, que por isso ficou com os onze primeiros números; as da Fase 3 foram escritas retroativamente em seguida, ocupando 0012–0020; a Fase 4 retomou em 0021.
 
 ## Guias
 
@@ -78,7 +78,7 @@ A numeração dos documentos em `docs/desafios/` acompanha a fase do Tech Challe
 |---|---|---|
 | 1 e 2 | Containerização e deploy em Kubernetes | `*/docs/desafios/01` e `02` |
 | 3 | IaC, CI/CD com DevSecOps e GitOps | `*/docs/desafios/03` e `04` · [`iac/`](iac/) · [`ci-cd/`](ci-cd/) · [`kubernetes/`](kubernetes/) · [decisões 0012–0020](decisoes/#fase-3--iac-devsecops-e-gitops) |
-| 4 | Observabilidade | `*/docs/desafios/05` · [`observabilidade/`](observabilidade/) · [decisões 0001–0011](decisoes/#fase-4--observabilidade) |
+| 4 | Observabilidade | `*/docs/desafios/05` · [`observabilidade/`](observabilidade/) · [decisões 0001–0011 e 0021–0035](decisoes/#fase-4--observabilidade) |
 
 ---
 

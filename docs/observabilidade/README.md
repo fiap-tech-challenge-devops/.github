@@ -12,20 +12,26 @@
 
 ## Estado atual
 
-Os cinco serviços emitem traces, métricas e logs para um Collector no cluster, que os roteia para o **Datadog**. A stack opensource — Prometheus, Loki e Grafana — ainda não existe.
+Os cinco serviços emitem traces, métricas e logs para um Collector no cluster, e é ele que distribui: **Datadog** para APM, **Prometheus** para métricas e **Loki** para logs, com o Grafana lendo das duas últimas.
 
 | Frente | Situação |
 |---|---|
 | Instrumentação dos 5 serviços | pronta |
-| Collector no cluster | pronto, exporters `datadog` e `debug` |
+| Collector no cluster | pronto — exporters `datadog`, `prometheus`, `otlphttp/loki` e `debug` |
 | Propagação síncrona (HTTP) | pronta — atravessa Python e Go |
 | Propagação assíncrona (SQS) | pronta — span link entre produtor e consumidor |
-| Prometheus, Loki, Grafana | a fazer |
+| Prometheus | pronto — `kube-prometheus-stack` 92.10.1; métricas de infra pelo chart, de aplicação por `ServiceMonitor` na porta 8889 do Collector |
+| Loki | pronto — `SingleBinary` efêmero, recebendo por OTLP |
+| Grafana | pronto — dashboard `ToggleMaster · Visão geral`: requisições HTTP por serviço, CPU e memória dos nós, e logs ao vivo. Prometheus e Loki como datasources |
 | Datadog | pronto — APM, Service Map e trace distribuído validados em 15/10/2026 |
 | Alertas | pronto — 8 monitores, dois golden signals por serviço; os de taxa de erro com aviso em 5% e crítico em 10% |
 | ChatOps no Slack | pronto — a Action reporta por incoming webhook, e o monitor pelo handle `@slack-ToggleMaster-alertas-prod` |
-| PagerDuty | **pronto** — stage próprio, incidente aberto pelo monitor em 27/10/2026 e fechado sozinho pela integração em 30/10 |
+| PagerDuty | pronto — stage próprio, incidente aberto pelo monitor em 27/10/2026 e fechado sozinho pela integração em 30/10. O trial acabou em 09/11 e a conta passou ao tier gratuito, que cabe no desenho: 1 escalation policy e 0 schedules |
 | Self-healing | **validado em execução** — cadeia completa em 50s, 23/10/2026. A janela de confirmação de 90s que entrou em 30/10 ainda **não** rodou ponta a ponta |
+
+> **A escalation policy diz *quem*, não *por onde*.** O Terraform declara o serviço, a política e o usuário de plantão, mas o canal pelo qual a pessoa é alcançada — e-mail, push, SMS, ligação — vive nas *notification rules* do perfil dela, no painel. Nenhum `pagerduty_user_notification_rule` existe no stage, por decisão: o contato é dado pessoal e passaria a viver no `tf-vars`.
+>
+> O efeito prático é que a cadeia pode terminar num incidente aberto que ninguém recebe. Antes de gravar, confirmar em `My Profile → Notification Rules` que há pelo menos uma regra ativa. Push é o melhor canal para a demonstração: aparece na tela e não consome a cota de 100 notificações internacionais/mês do tier gratuito, que SMS e voz consomem.
 
 ## Trocar de conta Datadog
 
@@ -95,7 +101,9 @@ curl -s -o /dev/null -w '%{http_code}\n' https://api.datadoghq.com/api/v1/valida
 
 Nenhum PR, em nenhum repositório. O site vive no mesmo segredo que a key justamente para os dois trocarem juntos — ver [0021](../decisoes/0021-api-key-do-datadog-por-tf-vars.md).
 
-**O que a troca não recupera sozinha:** monitor, integrações e dashboards são configuração do painel e morrem com a conta. Por isso eles vão para um stage de Terraform próprio — [0023](../decisoes/0023-datadog-como-codigo.md) —, e a conta nova é reconstruída por apply. Sobra um núcleo manual: autorizar o Datadog no Slack e criar o serviço no PagerDuty são OAuth e não se automatizam.
+**O que a troca não recupera sozinha:** monitor, integrações e dashboards são configuração do painel e morrem com a conta. Por isso eles vão para um stage de Terraform próprio — [0023](../decisoes/0023-datadog-como-codigo.md) —, e a conta nova é reconstruída por apply. O lado do PagerDuty também: serviço, política de plantão e as duas pontas da integração são Terraform, no stage `pagerduty/` — ver [0033](../decisoes/0033-pagerduty-em-stage-proprio.md).
+
+Sobra um núcleo manual pequeno, e ele é todo de painel: **autorizar o Datadog no workspace do Slack**, que é OAuth e não se automatiza, e as **notification rules do plantonista**, pelo motivo da nota acima.
 
 ## Decisões que afetam este domínio
 

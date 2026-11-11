@@ -141,18 +141,28 @@ O tráfego volta a `200` assim que os pods novos sobem. O monitor volta a `OK` n
 
 ---
 
-## O que este roteiro ainda não cobre
+## A cadeia inteira, e o que o ensaio virou
 
 | Peça | Situação |
 |---|---|
 | Monitor disparando | pronto |
-| Incidente no PagerDuty | falta conectar |
-| Notificação no Slack | falta OAuth no workspace |
-| Automação executando a remediação | falta construir |
+| Incidente no PagerDuty | pronto — aberto pelo monitor em 27/10/2026, fechado sozinho pela integração em 30/10 |
+| Notificação no Slack | pronto — OAuth autorizado; a Action reporta por incoming webhook e o monitor pelo handle |
+| Automação executando a remediação | pronto — cadeia completa em 50s, 23/10/2026 |
 
-Os três passos da seção 4 são o que a automação vai executar. Rodá-los à mão agora é o ensaio — e a prova de que a sequência funciona antes de automatizá-la.
+**Os três passos da seção 4 são hoje o passo 7 da Action**, na mesma ordem. Rodá-los à mão continua sendo o ensaio útil: é como se confirma que a sequência funciona antes de culpar a automação.
 
-Quando a automação existir, ela precisa das salvaguardas que a prática recomenda: **diagnosticar antes de remediar**, parar depois de N tentativas no mesmo incidente, e escalar em vez de insistir. Automação que reinicia dez vezes por dia não conserta — mascara.
+As salvaguardas que esta seção pedia foram construídas, duas das três literalmente:
+
+| Pedia | Virou |
+|---|---|
+| diagnosticar antes de remediar | quatro sondas — HTTP, pods, nós e RDS — e um passo de confirmação de 90s re-sondando. Se a causa não for credencial, a Action **reporta e não age** |
+| parar depois de N tentativas no mesmo incidente | disjuntor por `$ALERT_CYCLE_KEY`, com `MAX_TENTATIVAS: 2`, contando runs anteriores pela API do Actions |
+| escalar em vez de insistir | **não** como desenho de dois níveis de monitor, que a [0034](../decisoes/0034-escada-de-severidade-e-espera-antes-de-remediar.md) descartou por não ter olhado a descida da janela. A escalada ficou no PagerDuty: `escalation_delay_in_minutes = 15` e `num_loops = 2` |
+
+A frase que sustentava tudo isso continua valendo: automação que reinicia dez vezes por dia não conserta — mascara.
+
+**O que ainda não rodou ponta a ponta:** a janela de confirmação de 90s, que entrou em 30/10, depois da validação de 23/10. Ela só exercita contra uma quebra real, e a demonstração é a primeira chance.
 
 ## Armadilhas conhecidas
 

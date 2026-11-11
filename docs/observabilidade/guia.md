@@ -1,6 +1,6 @@
 # Guia de observabilidade — como o dado flui e como consumi-lo
 
-Guia para quem vai dar sequência à Fase 4. A **Parte 1** explica os três sinais e o formato real em que eles chegam. A **Parte 2** é a receita para plugar cada backend. Da **Parte 3** em diante: mapa dos arquivos, convenções em vigor e armadilhas conhecidas.
+Guia para quem precisa entender ou mexer na observabilidade do projeto. A **Parte 1** explica os três sinais e o formato real em que eles chegam. A **Parte 2** é a receita de cada backend — toda aplicada, e mantida porque explica os values. Da **Parte 3** em diante: mapa dos arquivos, convenções em vigor, o que está de pé e armadilhas conhecidas.
 
 Todos os exemplos são **saída real do nosso cluster**, capturada do Collector. Você pode rodar o mesmo comando e comparar:
 
@@ -200,6 +200,8 @@ O que **não** vem: métricas de runtime (heap, goroutines, GC) e métricas de n
 
 O princípio: **acrescentar um destino é acrescentar um exporter**. Nenhum serviço é tocado, nenhuma imagem é reconstruída. Tudo acontece em `platform/observability/otel-collector/values.yaml`.
 
+Os quatro destinos desta parte estão aplicados, em `togglemaster-gitops/platform/observability/`, um diretório por componente. A receita fica porque é ela que explica **por que** cada `values.yaml` está do jeito que está — e as quatro armadilhas apontadas abaixo todas morderam de verdade.
+
 A forma geral:
 
 ```yaml
@@ -364,30 +366,32 @@ otel:
 
 ---
 
-# Parte 5 — O que falta
+# Parte 5 — O que está de pé
+
+Esta parte era uma lista de pendências. A Fase 4 fechou todas; o que ela guarda agora é **onde cada peça foi parar** e o que a execução ensinou.
 
 | Frente | Situação |
 |---|---|
 | Instrumentação dos 5 serviços | pronta |
-| Collector no cluster | pronto, exporter `debug` |
+| Collector no cluster | pronto — exporters `datadog`, `prometheus`, `otlphttp/loki` e `debug` |
 | Propagação síncrona e pelo SQS | pronta |
-| Prometheus, Loki, Grafana | a fazer |
-| Dashboard customizado | a fazer |
-| Datadog | a fazer |
-| Alertas, PagerDuty/OpsGenie, ChatOps | a fazer |
-| Self-healing | a fazer |
+| Prometheus, Loki, Grafana | prontos, como três Applications do Argo CD em `platform/observability/` |
+| Dashboard customizado | pronto — `ToggleMaster · Visão geral`, lendo de Prometheus e Loki |
+| Datadog | pronto — APM, Service Map e trace distribuído |
+| Alertas, PagerDuty, ChatOps | prontos — 8 monitores, stage `pagerduty/` e handle de Slack no monitor |
+| Self-healing | pronto — Action por `repository_dispatch`, validada em execução |
 
-### Duas pendências que vão aparecer na primeira tentativa
+### As duas pendências previstas aqui aconteceram, e a previsão era certa
 
-**Armazenamento.** `togglemaster-iac/infra/main.tf` tem `enable_ebs_csi_driver = false`. Sem o driver, **nenhum PersistentVolumeClaim é atendido**, e Prometheus e Loki pedem PVC por padrão. Ou liga-se o driver, ou roda-se efêmero com retenção curta. Para demonstração, a segunda basta.
+**Armazenamento.** Estava escrito que `enable_ebs_csi_driver = false` deixaria qualquer PVC em `Pending`, e que para demonstração bastava rodar efêmero com retenção curta. Foi exatamente o caminho: o Prometheus subiu com `storageSpec.emptyDir` de 4Gi, `retention: 24h` e `retentionSize: 3GB` — o limite de tamanho abaixo do `sizeLimit`, para o TSDB descartar bloco antigo antes de o kubelet despejar o pod. O Loki subiu em `SingleBinary` com `storage.type: filesystem`.
 
-**Capacidade.** O nó é um `t3.large`, com `1930m` alocáveis e cerca de `1550m` já reservados. O Collector coube em 100m; Prometheus, Loki e Grafana não cabem no que sobra, e o Karpenter vai subir outro nó. Definir `resources.requests` em tudo.
+**Capacidade.** Também confirmado: `resources.requests` está definido em todos os componentes, e o que não é consumido ficou desligado em vez de pedir CPU — Alertmanager, e os alvos de control plane que o EKS não expõe (`kubeScheduler`, `kubeControllerManager`, `kubeEtcd`, `kubeProxy`), que ligados virariam targets `DOWN`.
 
-### Decisão em aberto no self-healing
+### A decisão do self-healing foi tomada
 
-GitHub Action por `repository_dispatch` aproveita a esteira existente, mas precisa de credencial para alcançar o cluster. Lambda na VPC evita isso, mas é componente novo.
+Era "GitHub Action ou Lambda na VPC". Ficou a **Action** — [0030](../decisoes/0030-self-healing-em-github-action.md) —, e o detalhe que a tornou viável é que ela não precisa alcançar o cluster para o passo que importa: a remediação reverte a versão do segredo no Secrets Manager e recicla os pods, e o `kubectl` sai de um `aws eks update-kubeconfig` autenticado por OIDC.
 
-E vale lembrar: **a stack de observabilidade cai junto com o que ela observa**. Se o alerta que dispara o self-healing depender de um Alertmanager no mesmo nó com problema, ele pode não disparar. Por isso a recomendação é o caminho do alerta passar pelo Datadog, que é externo.
+A advertência desta parte — **a stack de observabilidade cai junto com o que ela observa** — virou critério de desenho, e não só lembrete. O caminho do alerta que dispara o self-healing passa pelo Datadog, que é externo ao cluster; o Alertmanager está desligado, então o lado opensource não tem rota de alerta por onde essa fragilidade entraria. O enunciado pede alerta *no Grafana **ou** no APM*, e um basta.
 
 ---
 
