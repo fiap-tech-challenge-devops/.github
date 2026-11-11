@@ -8,9 +8,9 @@ Com o PagerDuty já no lugar como gestor de incidentes, a pergunta aparece sozin
 
 A intuição é boa. Hoje o Datadog manda para três destinos em paralelo — Slack, PagerDuty e o webhook do `repository_dispatch` — e o PagerDuty é só mais um deles, apesar de ser o único que existe para gerir incidentes. Faz pensar que a automação deveria pendurar nele.
 
-Dois argumentos concretos sustentam a ideia, e os dois são reais:
+Dois argumentos sustentam a ideia. O segundo vale hoje; o primeiro, só num cenário que ainda não existe:
 
-**O enunciado exige duas fontes de alerta** — a stack opensource com Grafana e um APM comercial. Se a remediação tem que reagir às duas, hoje isso significa configurar webhook em dois lugares, com dois formatos de payload. Um funil resolveria.
+**Se um dia houver duas fontes de alerta.** O enunciado pede as duas stacks — Prometheus, Loki e Grafana de um lado, um APM comercial do outro —, mas o alerta ele deixa *"no Grafana **ou** no APM"*, e a [0029](0029-dois-golden-signals.md) já registrou que um basta. Se o Grafana também passar a alertar, a remediação teria que reagir às duas: webhook em dois lugares, com dois formatos de payload. Um funil resolveria.
 
 **O PagerDuty deduplica alertas em incidentes nativamente**, que é uma versão pronta do disjuntor que a [0032](0032-triagem-por-sondas-e-report-no-slack.md) construiu à mão, contando runs anteriores pela API do Actions com `jq`.
 
