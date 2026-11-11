@@ -38,6 +38,7 @@ campo() {  # $1 = arquivo, $2 = nome do campo -> valor, ou vazio
 
 arquivos=$(ls [0-9][0-9][0-9][0-9]-*.md 2>/dev/null)
 [ -n "$arquivos" ] || { echo "Nenhuma ADR encontrada."; exit 1; }
+total=$(echo "$arquivos" | wc -l | tr -d ' ')
 
 # --- 1. as tabelas por domínio batem com o campo Domínio? ------------------
 echo "1 · Campo Domínio x tabelas por domínio"
@@ -158,9 +159,20 @@ while read -r alvo; do
 done <<< "$(grep -o '](\([0-9][0-9][0-9][0-9]-[^)]*\.md\))' README.md \
   | sed 's/](//; s/)$//' | sort -u)"
 
+# --- 6. o índice de docs/ declara o número certo de ADRs -------------------
+echo "6 · Contagem no índice de docs/"
+
+# Ficou em 33 enquanto a série chegava a 35. Quem acrescenta ADR mexe no índice
+# daqui e não lembra do de cima.
+declarado=$(sed -n 's/.*(decisoes\/) · \([0-9]\{1,\}\) registros.*/\1/p' ../README.md)
+if [ -z "$declarado" ]; then
+  erro "não achei a contagem de registros em ../README.md"
+elif [ "$declarado" != "$total" ]; then
+  erro "../README.md declara $declarado registros, mas existem $total"
+fi
+
 # --- resultado -------------------------------------------------------------
 echo
-total=$(echo "$arquivos" | wc -l | tr -d ' ')
 if [ "$falhas" -eq 0 ]; then
   echo "✔ $total ADRs, índice consistente."
 else

@@ -206,11 +206,12 @@ O código daquele período vive no [`togglemaster-platform-legacy`](https://gith
 2. Preencha `Domínio` e `Fase` no cabeçalho, e `Validação` se houver o que validar
 3. Preencha contexto, decisão, **alternativas descartadas** e consequências
 4. Acrescente nas tabelas por domínio — **uma linha por domínio declarado** — e na da fase
-5. Se superar uma decisão existente, marque a antiga como `superada por NNNN` — **não apague**
-6. Rode [`./verificar.sh`](verificar.sh)
+5. Atualize a contagem de registros em [`../README.md`](../README.md)
+6. Se superar uma decisão existente, marque a antiga como `superada por NNNN` — **não apague**
+7. Rode [`./verificar.sh`](verificar.sh)
 
 ### Por que as tabelas são escritas à mão
 
 Porque a descrição de cada linha diz por que aquela decisão importa **para aquele domínio**, e isso não sai do título. A [0032](0032-triagem-por-sondas-e-report-no-slack.md) é o exemplo: em Observabilidade ela é *"o Datadog notifica; a Action tria por sondas, remedia e reporta"*; em CI/CD é *"filtro de transição, disjuntor por ciclo de alerta e report no Job Summary"*. Gerar as tabelas a partir do título achataria as duas na mesma frase.
 
-O preço disso é deriva, e ela já aconteceu: a 0027 ficou fora de ordem na tabela de Observabilidade e ninguém viu; três ADRs declaravam um domínio em que não apareciam. O `verificar.sh` é o que cobra o preço — ele confere o campo `Domínio` contra as tabelas nos dois sentidos, a ordem numérica, a cobertura, o vocabulário de `Status` e `Validação`, e os links. Sai `1` em qualquer divergência, então serve de passo de esteira.
+O preço disso é deriva, e ela já aconteceu três vezes: a 0027 ficou fora de ordem na tabela de Observabilidade e ninguém viu; três ADRs declaravam um domínio em que não apareciam; e o índice de `docs/` ficou dizendo *33 registros* enquanto a série chegava a 35. O `verificar.sh` é o que cobra o preço — ele confere o campo `Domínio` contra as tabelas nos dois sentidos, a ordem numérica, a cobertura, o vocabulário de `Status` e `Validação`, os links, e a contagem declarada no índice de cima. Sai `1` em qualquer divergência, então serve de passo de esteira.
