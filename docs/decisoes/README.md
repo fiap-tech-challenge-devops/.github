@@ -64,6 +64,7 @@ Isso acontece quando **não existe documento de desafio para aquele assunto** e 
 | [0025](0025-baseline-em-spot.md) | Baseline em dois nós spot, com cinco tipos de instância | aceita, exceto no spot |
 | [0036](0036-senha-do-grafana-por-external-secrets.md) | Credencial de chart de terceiros entregue por External Secrets, não gerada no render | aceita |
 | [0037](0037-baseline-on-demand.md) | O baseline não é interrompível; o risco de spot fica no que escala | aceita |
+| [0039](0039-dashboard-do-grafana-espelhando-o-datadog.md) | Métrica em duas famílias e unidades, e o que o Prometheus não tem | aceita |
 
 ### IaC
 
@@ -111,6 +112,7 @@ Isso acontece quando **não existe documento de desafio para aquele assunto** e 
 | [0035](0035-o-disparo-do-self-healing-fica-no-datadog.md) | O PagerDuty é destino de notificação, não orquestrador da remediação | aceita |
 | [0036](0036-senha-do-grafana-por-external-secrets.md) | A senha do Grafana vem do Secrets Manager, e o chart deixa de gerá-la | aceita |
 | [0038](0038-dashboard-de-performance-no-datadog.md) | Um dashboard no Datadog para a demonstração, como JSON exportado | aceita |
+| [0039](0039-dashboard-do-grafana-espelhando-o-datadog.md) | O dashboard do Grafana espelha o do Datadog, e o que não traduz | aceita |
 
 ### CI/CD
 
@@ -180,6 +182,7 @@ Registradas enquanto a fase acontece. Em ordem cronológica, elas contam como el
 | [0036](0036-senha-do-grafana-por-external-secrets.md) | A senha do Grafana vem do Secrets Manager | 13/11 |
 | [0037](0037-baseline-on-demand.md) | Baseline inteiro em on-demand | 13/11 |
 | [0038](0038-dashboard-de-performance-no-datadog.md) | Dashboard de performance no Datadog | 13/11 |
+| [0039](0039-dashboard-do-grafana-espelhando-o-datadog.md) | Dashboard do Grafana espelhando o do Datadog | 13/11 |
 
 As quatro últimas são da **rodada 3** — Datadog, alerta, PagerDuty, Slack e self-healing.
 
