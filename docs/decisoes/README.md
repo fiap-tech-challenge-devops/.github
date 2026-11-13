@@ -61,8 +61,9 @@ Isso acontece quando **não existe documento de desafio para aquele assunto** e 
 | [0002](0002-um-chart-por-componente.md) | Um chart e uma Application por componente de plataforma | aceita |
 | [0003](0003-observabilidade-no-gitops.md) | Stack de observabilidade no GitOps, não no Terraform | aceita |
 | [0020](0020-tag-da-imagem-e-o-sha.md) | A tag da imagem é o SHA, e o CD escreve no GitOps | aceita |
-| [0025](0025-baseline-em-spot.md) | Baseline em dois nós spot, com cinco tipos de instância | aceita |
+| [0025](0025-baseline-em-spot.md) | Baseline em dois nós spot, com cinco tipos de instância | aceita, exceto no spot |
 | [0036](0036-senha-do-grafana-por-external-secrets.md) | Credencial de chart de terceiros entregue por External Secrets, não gerada no render | aceita |
+| [0037](0037-baseline-on-demand.md) | O baseline não é interrompível; o risco de spot fica no que escala | aceita |
 
 ### IaC
 
@@ -77,9 +78,10 @@ Isso acontece quando **não existe documento de desafio para aquele assunto** e 
 | [0021](0021-api-key-do-datadog-por-tf-vars.md) | A API key do Datadog por `tf-vars`, e o `plan` aceitando o input | aceita |
 | [0023](0023-datadog-como-codigo.md) | O que é construído no Datadog vira Terraform, num stage próprio | aceita, exceto no destroy |
 | [0024](0024-encaixe-do-stage-datadog-na-esteira.md) | Plan do stage `datadog` na matriz, apply em esteira própria | aceita, estendida |
-| [0025](0025-baseline-em-spot.md) | Baseline em dois nós spot, com cinco tipos de instância | aceita |
+| [0025](0025-baseline-em-spot.md) | Baseline em dois nós spot, com cinco tipos de instância | aceita, exceto no spot |
 | [0027](0027-ciclo-de-vida-do-stage-datadog.md) | O stage `datadog` sobe com o ambiente e é destruído primeiro | aceita |
 | [0033](0033-pagerduty-em-stage-proprio.md) | Stage `pagerduty` próprio, para a chave não atravessar fronteira | aceita |
+| [0037](0037-baseline-on-demand.md) | Baseline em on-demand, e teto acima do desejado para repor sem perder | aceita |
 
 ### Observabilidade
 
@@ -174,6 +176,7 @@ Registradas enquanto a fase acontece. Em ordem cronológica, elas contam como el
 | [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md) | Escada de severidade, e espera antes de remediar | 30/10 |
 | [0035](0035-o-disparo-do-self-healing-fica-no-datadog.md) | O disparo fica no Datadog, não passa pelo PagerDuty | 30/10 |
 | [0036](0036-senha-do-grafana-por-external-secrets.md) | A senha do Grafana vem do Secrets Manager | 13/11 |
+| [0037](0037-baseline-on-demand.md) | Baseline inteiro em on-demand | 13/11 |
 
 As quatro últimas são da **rodada 3** — Datadog, alerta, PagerDuty, Slack e self-healing.
 
