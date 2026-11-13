@@ -24,6 +24,7 @@ Os cinco serviços emitem traces, métricas e logs para um Collector no cluster,
 | Loki | pronto — `SingleBinary` efêmero, recebendo por OTLP |
 | Grafana | pronto — dashboard `ToggleMaster · Visão geral`: requisições HTTP por serviço, CPU e memória dos nós, e logs ao vivo. Prometheus e Loki como datasources |
 | Datadog | pronto — APM, Service Map e trace distribuído validados em 15/10/2026 |
+| Dashboard no Datadog | pronto — `ToggleMaster · Microservices Performance`, 13 widgets em 5 grupos, como `datadog_dashboard_json`. Não atende requisito: existe para a demonstração caber numa tela. Ver [0038](../decisoes/0038-dashboard-de-performance-no-datadog.md) |
 | Alertas | pronto — 8 monitores, dois golden signals por serviço; os de taxa de erro com aviso em 5% e crítico em 10% |
 | ChatOps no Slack | pronto — a Action reporta por incoming webhook, e o monitor pelo handle `@slack-ToggleMaster-alertas-prod` |
 | PagerDuty | pronto — stage próprio, incidente aberto pelo monitor em 27/10/2026 e fechado sozinho pela integração em 30/10. O trial acabou em 09/11 e a conta passou ao tier gratuito, que cabe no desenho: 1 escalation policy e 0 schedules |
@@ -121,7 +122,7 @@ Sobra um núcleo manual pequeno, e ele é todo de painel: **autorizar o Datadog 
 | [0022](../decisoes/0022-datadog-connector-desde-o-inicio.md) | O `datadog/connector` junto do exporter, e o `debug` caindo para `basic` |
 | [0023](../decisoes/0023-datadog-como-codigo.md) | Monitor, integrações e dashboards como Terraform, num stage próprio |
 | [0024](../decisoes/0024-encaixe-do-stage-datadog-na-esteira.md) | Como o stage `datadog` entra nas esteiras de plan e apply |
-| [0026](../decisoes/0026-sem-dashboard-no-datadog.md) | Sem dashboard no Datadog — o customizado é o do Grafana |
+| [0026](../decisoes/0026-sem-dashboard-no-datadog.md) | Sem dashboard no Datadog — **superada pela 0038**, mas a leitura do enunciado segue válida |
 | [0028](../decisoes/0028-slack-para-chatops.md) | Slack para o ChatOps, e o passo de OAuth que fica manual |
 | [0029](../decisoes/0029-dois-golden-signals.md) | Por que só dois dos quatro golden signals, e o que falta para os outros |
 | [0030](../decisoes/0030-self-healing-em-github-action.md) | Onde a automação de self-healing executa |
@@ -130,6 +131,8 @@ Sobra um núcleo manual pequeno, e ele é todo de painel: **autorizar o Datadog 
 | [0033](../decisoes/0033-pagerduty-em-stage-proprio.md) | PagerDuty como código, e por que os oito monitores paginam |
 | [0034](../decisoes/0034-escada-de-severidade-e-espera-antes-de-remediar.md) | Aviso em 5% e crítico em 10%, e a espera que confirma antes de remediar |
 | [0035](../decisoes/0035-o-disparo-do-self-healing-fica-no-datadog.md) | Por que o PagerDuty não dispara o self-healing |
+| [0036](../decisoes/0036-senha-do-grafana-por-external-secrets.md) | A senha do Grafana vem do Secrets Manager, e o chart deixa de gerá-la |
+| [0038](../decisoes/0038-dashboard-de-performance-no-datadog.md) | Um dashboard no Datadog para a demonstração, como JSON exportado |
 | [0027](../decisoes/0027-ciclo-de-vida-do-stage-datadog.md) | Sobe com o ambiente, e é o primeiro a ser destruído |
 
 ## Documentação por serviço

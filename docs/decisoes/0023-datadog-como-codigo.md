@@ -27,6 +27,8 @@ Isso cobre o caminho do dado. Não cobre o que é construído em cima dele — m
 **O que for construído no Datadog é gerenciado pelo provider Terraform do Datadog** — `datadog_monitor`, `datadog_integration_pagerduty`, `datadog_integration_slack_channel`, `datadog_dashboard_json`.
 
 > O `datadog_dashboard_json` **não será usado**: a [0026](0026-sem-dashboard-no-datadog.md) decidiu que não há dashboard customizado no Datadog, porque o enunciado pede o dashboard no Grafana e as páginas nativas de APM já cobrem o que se pretendia construir.
+>
+> **Em 13/11/2026 ele passou a ser usado.** A [0038](0038-dashboard-de-performance-no-datadog.md) acrescentou um dashboard de performance, lendo o export da UI por `file()`. Ele não atende requisito do enunciado — existe para a demonstração em vídeo caber numa tela só —, e a leitura do enunciado feita pela 0026 segue correta.
 
 **E mora num stage novo, `datadog/`, com state próprio.**
 

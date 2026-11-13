@@ -82,6 +82,7 @@ Isso acontece quando **não existe documento de desafio para aquele assunto** e 
 | [0027](0027-ciclo-de-vida-do-stage-datadog.md) | O stage `datadog` sobe com o ambiente e é destruído primeiro | aceita |
 | [0033](0033-pagerduty-em-stage-proprio.md) | Stage `pagerduty` próprio, para a chave não atravessar fronteira | aceita |
 | [0037](0037-baseline-on-demand.md) | Baseline em on-demand, e teto acima do desejado para repor sem perder | aceita |
+| [0038](0038-dashboard-de-performance-no-datadog.md) | `datadog_dashboard_json` lendo o export da UI, no stage `datadog` | aceita |
 
 ### Observabilidade
 
@@ -98,7 +99,7 @@ Isso acontece quando **não existe documento de desafio para aquele assunto** e 
 | [0021](0021-api-key-do-datadog-por-tf-vars.md) | A API key do Datadog por `tf-vars` | aceita |
 | [0022](0022-datadog-connector-desde-o-inicio.md) | O `datadog/connector` junto do exporter | aceita |
 | [0023](0023-datadog-como-codigo.md) | O que é construído no Datadog vira Terraform, num stage próprio | aceita, exceto no destroy |
-| [0026](0026-sem-dashboard-no-datadog.md) | Não haverá dashboard customizado no Datadog | aceita |
+| [0026](0026-sem-dashboard-no-datadog.md) | Não haverá dashboard customizado no Datadog | superada por 0038 |
 | [0027](0027-ciclo-de-vida-do-stage-datadog.md) | O stage `datadog` sobe com o ambiente e é destruído primeiro | aceita |
 | [0028](0028-slack-para-chatops.md) | Slack para o ChatOps, aceitando um passo manual de OAuth | aceita |
 | [0029](0029-dois-golden-signals.md) | Latência e taxa de erro; tráfego e saturação ficam como lacuna | aceita |
@@ -109,6 +110,7 @@ Isso acontece quando **não existe documento de desafio para aquele assunto** e 
 | [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md) | Aviso em 5% e crítico em 10%, com janela de confirmação antes de remediar | aceita |
 | [0035](0035-o-disparo-do-self-healing-fica-no-datadog.md) | O PagerDuty é destino de notificação, não orquestrador da remediação | aceita |
 | [0036](0036-senha-do-grafana-por-external-secrets.md) | A senha do Grafana vem do Secrets Manager, e o chart deixa de gerá-la | aceita |
+| [0038](0038-dashboard-de-performance-no-datadog.md) | Um dashboard no Datadog para a demonstração, como JSON exportado | aceita |
 
 ### CI/CD
 
@@ -177,6 +179,7 @@ Registradas enquanto a fase acontece. Em ordem cronológica, elas contam como el
 | [0035](0035-o-disparo-do-self-healing-fica-no-datadog.md) | O disparo fica no Datadog, não passa pelo PagerDuty | 30/10 |
 | [0036](0036-senha-do-grafana-por-external-secrets.md) | A senha do Grafana vem do Secrets Manager | 13/11 |
 | [0037](0037-baseline-on-demand.md) | Baseline inteiro em on-demand | 13/11 |
+| [0038](0038-dashboard-de-performance-no-datadog.md) | Dashboard de performance no Datadog | 13/11 |
 
 As quatro últimas são da **rodada 3** — Datadog, alerta, PagerDuty, Slack e self-healing.
 
