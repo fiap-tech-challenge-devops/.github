@@ -62,6 +62,7 @@ Isso acontece quando **não existe documento de desafio para aquele assunto** e 
 | [0003](0003-observabilidade-no-gitops.md) | Stack de observabilidade no GitOps, não no Terraform | aceita |
 | [0020](0020-tag-da-imagem-e-o-sha.md) | A tag da imagem é o SHA, e o CD escreve no GitOps | aceita |
 | [0025](0025-baseline-em-spot.md) | Baseline em dois nós spot, com cinco tipos de instância | aceita |
+| [0036](0036-senha-do-grafana-por-external-secrets.md) | Credencial de chart de terceiros entregue por External Secrets, não gerada no render | aceita |
 
 ### IaC
 
@@ -105,6 +106,7 @@ Isso acontece quando **não existe documento de desafio para aquele assunto** e 
 | [0033](0033-pagerduty-em-stage-proprio.md) | PagerDuty como código, num stage próprio com as duas pontas da integração | aceita |
 | [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md) | Aviso em 5% e crítico em 10%, com janela de confirmação antes de remediar | aceita |
 | [0035](0035-o-disparo-do-self-healing-fica-no-datadog.md) | O PagerDuty é destino de notificação, não orquestrador da remediação | aceita |
+| [0036](0036-senha-do-grafana-por-external-secrets.md) | A senha do Grafana vem do Secrets Manager, e o chart deixa de gerá-la | aceita |
 
 ### CI/CD
 
@@ -171,8 +173,9 @@ Registradas enquanto a fase acontece. Em ordem cronológica, elas contam como el
 | [0033](0033-pagerduty-em-stage-proprio.md) | PagerDuty como código, num stage próprio | 27/10 |
 | [0034](0034-escada-de-severidade-e-espera-antes-de-remediar.md) | Escada de severidade, e espera antes de remediar | 30/10 |
 | [0035](0035-o-disparo-do-self-healing-fica-no-datadog.md) | O disparo fica no Datadog, não passa pelo PagerDuty | 30/10 |
+| [0036](0036-senha-do-grafana-por-external-secrets.md) | A senha do Grafana vem do Secrets Manager | 13/11 |
 
-As três últimas são da **rodada 3** — Datadog, alerta, PagerDuty, Slack e self-healing.
+As quatro últimas são da **rodada 3** — Datadog, alerta, PagerDuty, Slack e self-healing.
 
 ### Fase 3 — IaC, DevSecOps e GitOps
 
