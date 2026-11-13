@@ -22,7 +22,7 @@ Os cinco serviços emitem traces, métricas e logs para um Collector no cluster,
 | Propagação assíncrona (SQS) | pronta — span link entre produtor e consumidor |
 | Prometheus | pronto — `kube-prometheus-stack` 92.10.1; métricas de infra pelo chart, de aplicação por `ServiceMonitor` na porta 8889 do Collector |
 | Loki | pronto — `SingleBinary` efêmero, recebendo por OTLP |
-| Grafana | pronto — dashboard `ToggleMaster · Visão geral`: requisições HTTP por serviço, CPU e memória dos nós, e logs ao vivo. Prometheus e Loki como datasources |
+| Grafana | pronto — dashboard `ToggleMaster · Visão geral`, reescrito em 13/11 espelhando o do Datadog: 26 painéis em 7 seções, com variável de serviço. Prometheus e Loki como datasources. Ver [0039](../decisoes/0039-dashboard-do-grafana-espelhando-o-datadog.md) |
 | Datadog | pronto — APM, Service Map e trace distribuído validados em 15/10/2026 |
 | Dashboard no Datadog | pronto — `ToggleMaster · Microservices Performance`, 13 widgets em 5 grupos, como `datadog_dashboard_json`. Não atende requisito: existe para a demonstração caber numa tela. Ver [0038](../decisoes/0038-dashboard-de-performance-no-datadog.md) |
 | Alertas | pronto — 8 monitores, dois golden signals por serviço; os de taxa de erro com aviso em 5% e crítico em 10% |
@@ -133,6 +133,7 @@ Sobra um núcleo manual pequeno, e ele é todo de painel: **autorizar o Datadog 
 | [0035](../decisoes/0035-o-disparo-do-self-healing-fica-no-datadog.md) | Por que o PagerDuty não dispara o self-healing |
 | [0036](../decisoes/0036-senha-do-grafana-por-external-secrets.md) | A senha do Grafana vem do Secrets Manager, e o chart deixa de gerá-la |
 | [0038](../decisoes/0038-dashboard-de-performance-no-datadog.md) | Um dashboard no Datadog para a demonstração, como JSON exportado |
+| [0039](../decisoes/0039-dashboard-do-grafana-espelhando-o-datadog.md) | O dashboard do Grafana espelhando o do Datadog, e as três coisas que não traduzem |
 | [0027](../decisoes/0027-ciclo-de-vida-do-stage-datadog.md) | Sobe com o ambiente, e é o primeiro a ser destruído |
 
 ## Documentação por serviço
