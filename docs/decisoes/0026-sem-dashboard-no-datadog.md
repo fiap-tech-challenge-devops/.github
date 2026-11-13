@@ -1,6 +1,12 @@
 # 0026 — Não haverá dashboard customizado no Datadog
 
-**Status:** aceita · **Domínio:** Observabilidade · **Data:** 16/10/2026 · **Fase:** 4
+**Status:** superada por [0038](0038-dashboard-de-performance-no-datadog.md) · **Domínio:** Observabilidade · **Data:** 16/10/2026 · **Fase:** 4
+
+> **O que mudou:** passou a existir um dashboard no Datadog — [0038](0038-dashboard-de-performance-no-datadog.md).
+>
+> **A leitura do enunciado abaixo continua correta**, e é por isso que esta decisão não foi apagada: o dashboard que o enunciado exige é o do Grafana, e as páginas nativas de APM cobrem os requisitos do Datadog. O dashboard da 0038 **não atende requisito nenhum** — existe para a demonstração em vídeo caber numa tela só.
+>
+> A objeção central daqui — *"uma edição na UI é desfeita no próximo apply"* — foi **aceita, não resolvida**: o Git passa a ser a verdade. O que a 0038 descarta não é a objeção, é a esteira de captura e auto-merge que esta decisão desenhou para contorná-la.
 
 ## Contexto
 

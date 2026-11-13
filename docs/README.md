@@ -26,7 +26,7 @@ Cada hub diz o que o domínio cobre, quais decisões se aplicam a ele, e aponta 
 
 Registro das escolhas que vinculam mais de um repositório: o que foi decidido, **o que foi descartado** e por quê.
 
-→ [**Índice de decisões**](decisoes/) · 37 registros
+→ [**Índice de decisões**](decisoes/) · 38 registros
 
 O número é a ordem em que a decisão foi **registrada**, não em que foi tomada. O registro começou na Fase 4, que por isso ficou com os onze primeiros números; as da Fase 3 foram escritas retroativamente em seguida, ocupando 0012–0020; a Fase 4 retomou em 0021.
 
