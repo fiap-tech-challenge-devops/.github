@@ -1,6 +1,12 @@
 # 0025 — Baseline em dois nós spot, com cinco tipos de instância
 
-**Status:** aceita · **Domínio:** IaC · Kubernetes · **Data:** 15/10/2026 · **Fase:** 4
+**Status:** aceita, **exceto no baseline ser spot, superado pela [0037](0037-baseline-on-demand.md)** · **Domínio:** IaC · Kubernetes · **Data:** 15/10/2026 · **Fase:** 4
+
+> **O que mudou:** o baseline passou inteiro a **on-demand**, com teto acima do desejado, e o risco de spot ficou só no que o Karpenter sobe por demanda — [0037](0037-baseline-on-demand.md).
+>
+> A previsão de que uma interrupção custaria *"alguns minutos e nada além"* não se sustentou: em 13/11/2026 foram **doze minutos com um nó só**, em dez reposições recusadas com `UnfulfillableCapacity`. O Capacity Rebalancing citado abaixo estava de fato ligado, mas não tinha como agir — ele sobe o substituto antes de perder o nó, e para isso precisa de teto acima do desejado, que o `min = desired = max = 2` não dava. E a causa de fundo nem é essa: quando não existe capacidade spot, nenhum teto resolve.
+>
+> **O dimensionamento em dois nós e a diversificação em cinco tipos seguem em vigor.** O que caiu foi o tipo de capacidade. O resto desta decisão continua valendo.
 
 ## Contexto
 
